@@ -15,7 +15,7 @@ Z:/work/G/g/g/ï¼§-SENCE
 -logFile
 Logs/AssetImportWorker0.log
 -srvPort
-51565
+53528
 Successfully changed project path to: Z:/work/G/g/g/ï¼§-SENCE
 Z:/work/G/g/g/ï¼§-SENCE
 [UnityMemory] Configuration Parameters - Can be set up in boot.config
@@ -49,9 +49,9 @@ Z:/work/G/g/g/ï¼§-SENCE
     "memorysetup-temp-allocator-size-cloud-worker=32768"
     "memorysetup-temp-allocator-size-gi-baking-worker=262144"
     "memorysetup-temp-allocator-size-gfx=262144"
-Player connection [7928] Host "[IP] 192.168.40.21 [Port] 0 [Flags] 2 [Guid] 2366526306 [EditorId] 2366526306 [Version] 1048832 [Id] WindowsEditor(7,DESKTOP-9H9KQJ1) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined multi-casting on [225.0.0.222:54997]...
+Player connection [37248] Host "[IP] 192.168.40.21 [Port] 0 [Flags] 2 [Guid] 548764775 [EditorId] 548764775 [Version] 1048832 [Id] WindowsEditor(7,DESKTOP-9H9KQJ1) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined multi-casting on [225.0.0.222:54997]...
 
-Player connection [7928] Host "[IP] 192.168.40.21 [Port] 0 [Flags] 2 [Guid] 2366526306 [EditorId] 2366526306 [Version] 1048832 [Id] WindowsEditor(7,DESKTOP-9H9KQJ1) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined alternative multi-casting on [225.0.0.222:34997]...
+Player connection [37248] Host "[IP] 192.168.40.21 [Port] 0 [Flags] 2 [Guid] 548764775 [EditorId] 548764775 [Version] 1048832 [Id] WindowsEditor(7,DESKTOP-9H9KQJ1) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" joined alternative multi-casting on [225.0.0.222:34997]...
 
 [Physics::Module] Initialized MultithreadedJobDispatcher with 15 workers.
 Refreshing native plugins compatible for Editor in 0.00 ms, found 0 plugins.
@@ -70,44 +70,44 @@ Initialize mono
 Mono path[0] = 'Z:/Unity 2022.3.15f1/Editor/Data/Managed'
 Mono path[1] = 'Z:/Unity 2022.3.15f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
 Mono config path = 'Z:/Unity 2022.3.15f1/Editor/Data/MonoBleedingEdge/etc'
-Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56572
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56304
 Begin MonoManager ReloadAssembly
 Registering precompiled unity dll's ...
 Register platform support module: Z:/Unity 2022.3.15f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
-Registered in 0.002030 seconds.
-- Loaded All Assemblies, in  0.187 seconds
+Registered in 0.002024 seconds.
+- Loaded All Assemblies, in  0.193 seconds
 Native extension for WindowsStandalone target not found
 Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  0.155 seconds
-Domain Reload Profiling: 341ms
-	BeginReloadAssembly (61ms)
+- Finished resetting the current domain, in  0.163 seconds
+Domain Reload Profiling: 355ms
+	BeginReloadAssembly (66ms)
 		ExecutionOrderSort (0ms)
 		DisableScriptedObjects (0ms)
 		BackupInstance (0ms)
 		ReleaseScriptingObjects (0ms)
 		CreateAndSetChildDomain (0ms)
-	RebuildCommonClasses (20ms)
+	RebuildCommonClasses (21ms)
 	RebuildNativeTypeToScriptingClass (7ms)
-	initialDomainReloadingComplete (27ms)
+	initialDomainReloadingComplete (28ms)
 	LoadAllAssembliesAndSetupDomain (71ms)
-		LoadAssemblies (61ms)
+		LoadAssemblies (65ms)
 		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (70ms)
-			TypeCache.Refresh (69ms)
-				TypeCache.ScanAssembly (61ms)
+		AnalyzeDomain (71ms)
+			TypeCache.Refresh (70ms)
+				TypeCache.ScanAssembly (62ms)
 			ScanForSourceGeneratedMonoScriptInfo (0ms)
 			ResolveRequiredComponents (0ms)
-	FinalizeReload (155ms)
+	FinalizeReload (163ms)
 		ReleaseScriptCaches (0ms)
 		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (122ms)
+		SetupLoadedEditorAssemblies (131ms)
 			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (4ms)
+			InitializePlatformSupportModulesInManaged (5ms)
 			SetLoadedEditorAssemblies (4ms)
 			RefreshPlugins (0ms)
 			BeforeProcessingInitializeOnLoad (1ms)
-			ProcessInitializeOnLoadAttributes (80ms)
-			ProcessInitializeOnLoadMethodAttributes (32ms)
+			ProcessInitializeOnLoadAttributes (87ms)
+			ProcessInitializeOnLoadMethodAttributes (34ms)
 			AfterProcessingInitializeOnLoad (0ms)
 			EditorAssembliesLoaded (0ms)
 		ExecutionOrderSort2 (0ms)
@@ -115,70 +115,139 @@ Domain Reload Profiling: 341ms
 ========================================================================
 Worker process is ready to serve import requests
 Begin MonoManager ReloadAssembly
-- Loaded All Assemblies, in  0.117 seconds
+- Loaded All Assemblies, in  0.121 seconds
 Refreshing native plugins compatible for Editor in 0.00 ms, found 0 plugins.
 Native extension for WindowsStandalone target not found
 Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  0.178 seconds
-Domain Reload Profiling: 295ms
-	BeginReloadAssembly (78ms)
+- Finished resetting the current domain, in  0.192 seconds
+Domain Reload Profiling: 313ms
+	BeginReloadAssembly (80ms)
 		ExecutionOrderSort (0ms)
-		DisableScriptedObjects (3ms)
+		DisableScriptedObjects (4ms)
 		BackupInstance (0ms)
 		ReleaseScriptingObjects (0ms)
 		CreateAndSetChildDomain (13ms)
-	RebuildCommonClasses (18ms)
+	RebuildCommonClasses (19ms)
 	RebuildNativeTypeToScriptingClass (6ms)
 	initialDomainReloadingComplete (11ms)
-	LoadAllAssembliesAndSetupDomain (3ms)
-		LoadAssemblies (45ms)
+	LoadAllAssembliesAndSetupDomain (6ms)
+		LoadAssemblies (46ms)
 		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (2ms)
-			TypeCache.Refresh (1ms)
-				TypeCache.ScanAssembly (0ms)
-			ScanForSourceGeneratedMonoScriptInfo (0ms)
+		AnalyzeDomain (4ms)
+			TypeCache.Refresh (3ms)
+				TypeCache.ScanAssembly (1ms)
+			ScanForSourceGeneratedMonoScriptInfo (1ms)
 			ResolveRequiredComponents (0ms)
-	FinalizeReload (178ms)
+	FinalizeReload (192ms)
 		ReleaseScriptCaches (0ms)
 		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (106ms)
+		SetupLoadedEditorAssemblies (117ms)
 			LogAssemblyErrors (0ms)
 			InitializePlatformSupportModulesInManaged (3ms)
 			SetLoadedEditorAssemblies (3ms)
 			RefreshPlugins (0ms)
-			BeforeProcessingInitializeOnLoad (12ms)
-			ProcessInitializeOnLoadAttributes (77ms)
-			ProcessInitializeOnLoadMethodAttributes (10ms)
+			BeforeProcessingInitializeOnLoad (18ms)
+			ProcessInitializeOnLoadAttributes (80ms)
+			ProcessInitializeOnLoadMethodAttributes (11ms)
 			AfterProcessingInitializeOnLoad (2ms)
 			EditorAssembliesLoaded (0ms)
 		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (10ms)
+		AwakeInstancesAfterBackupRestoration (9ms)
 Launched and connected shader compiler UnityShaderCompiler.exe after 0.06 seconds
 Refreshing native plugins compatible for Editor in 0.00 ms, found 0 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 6 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 3 unused Assets / (39.8 KB). Loaded Objects now: 477.
-Memory consumption went from 53.1 MB to 53.0 MB.
-Total: 1.496400 ms (FindLiveObjects: 0.027600 ms CreateObjectMapping: 0.001800 ms MarkObjects: 1.434000 ms  DeleteObjects: 0.032600 ms)
+Unloading 48 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 3 unused Assets / (48.5 KB). Loaded Objects now: 519.
+Memory consumption went from 54.0 MB to 53.9 MB.
+Total: 1.481800 ms (FindLiveObjects: 0.030600 ms CreateObjectMapping: 0.004600 ms MarkObjects: 1.406800 ms  DeleteObjects: 0.039200 ms)
 
 AssetImportParameters requested are different than current active one (requested -> active):
-  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
   custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
-  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
   custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
-  custom:CustomObjectIndexerAttribute: 43b350a4d6e6d1791af0b5038c4bea17 -> 
   custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
-  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
-  custom:SearchIndexIgnoredProperties: e643bd26f0fe6173181afceb89e7c659 -> 
   custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
   custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
   custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
   custom:AudioImporter_EditorPlatform: d09bf68614088b80899f8185d706f6e7 -> 
+  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
+  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
+  custom:CustomObjectIndexerAttribute: 43b350a4d6e6d1791af0b5038c4bea17 -> 
+  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
+  custom:SearchIndexIgnoredProperties: e643bd26f0fe6173181afceb89e7c659 -> 
 ========================================================================
 Received Import Request.
-  Time since last request: 16395.536021 seconds.
-  path: Assets/Scenes/SampleScene.unity
-  artifactKey: Guid(9fc0d4010bbf28b4594072e72b8655ab) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scenes/SampleScene.unity using Guid(9fc0d4010bbf28b4594072e72b8655ab) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a85bec50c8be757587fedfaade313866') in 0.001693 seconds
+  Time since last request: 18768.171834 seconds.
+  path: Assets/LI XIANG/New Prefab.prefab
+  artifactKey: Guid(ee65cca4073a62e4dbdf253c9fa7ed1b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/LI XIANG/New Prefab.prefab using Guid(ee65cca4073a62e4dbdf253c9fa7ed1b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5b761fb86d4a389a34e2c9a27017e75b') in 0.017245 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 4
+========================================================================
+Received Import Request.
+  Time since last request: 778.358807 seconds.
+  path: Assets/CatlandsGames
+  artifactKey: Guid(7400b036d69d77043b34748a8b239029) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/CatlandsGames using Guid(7400b036d69d77043b34748a8b239029) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '56dbe285a2a6a0dc33f34a9fbfba3584') in 0.000327 seconds
 Number of updated asset objects reloaded before import = 0
 Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 5.908059 seconds.
+  path: Assets/LI XIANG/CatlandsGames/9FreeBackgrounds
+  artifactKey: Guid(b7ae8b259c8fc904c84f816c4fdd404f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/LI XIANG/CatlandsGames/9FreeBackgrounds using Guid(b7ae8b259c8fc904c84f816c4fdd404f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4755a9f90ebaa6df8fba86ac8660d7b6') in 0.000279 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 1.413191 seconds.
+  path: Assets/LI XIANG/CatlandsGames/9FreeBackgrounds/BackgroundsPNG
+  artifactKey: Guid(dd6a6cf23b2647d44b4e19d15d086259) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/LI XIANG/CatlandsGames/9FreeBackgrounds/BackgroundsPNG using Guid(dd6a6cf23b2647d44b4e19d15d086259) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'd366e35f4006e21f4139c148f26508c7') in 0.000264 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 0
+========================================================================
+Received Import Request.
+  Time since last request: 0.174693 seconds.
+  path: Assets/LI XIANG/CatlandsGames/9FreeBackgrounds/BackgroundsPNG/Background1.png
+  artifactKey: Guid(47756a2cfdda9a849bded3443d840ec5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/LI XIANG/CatlandsGames/9FreeBackgrounds/BackgroundsPNG/Background1.png using Guid(47756a2cfdda9a849bded3443d840ec5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a5e08d16e57451f8714f2b1b26530b04') in 0.049383 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 3
+========================================================================
+Received Import Request.
+  Time since last request: 0.730129 seconds.
+  path: Assets/LI XIANG/CatlandsGames/9FreeBackgrounds/BackgroundsPNG/Background5.png
+  artifactKey: Guid(21ccac150b3155641a52dde347e67165) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/LI XIANG/CatlandsGames/9FreeBackgrounds/BackgroundsPNG/Background5.png using Guid(21ccac150b3155641a52dde347e67165) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e27a18166c3ef061cb0472781334c89f') in 0.015369 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 3
+========================================================================
+Received Import Request.
+  Time since last request: 0.013572 seconds.
+  path: Assets/LI XIANG/CatlandsGames/9FreeBackgrounds/BackgroundsPNG/Background6.png
+  artifactKey: Guid(8dd68a12a134a3e48b25ebf88d9dc0bd) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/LI XIANG/CatlandsGames/9FreeBackgrounds/BackgroundsPNG/Background6.png using Guid(8dd68a12a134a3e48b25ebf88d9dc0bd) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f533c6d025bb7cf09e0a6c2f7e817e00') in 0.013761 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 3
+========================================================================
+Received Import Request.
+  Time since last request: 0.000371 seconds.
+  path: Assets/LI XIANG/CatlandsGames/9FreeBackgrounds/BackgroundsPNG/Background7.png
+  artifactKey: Guid(19b85b641f5baec4e9edf01cec95a23f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/LI XIANG/CatlandsGames/9FreeBackgrounds/BackgroundsPNG/Background7.png using Guid(19b85b641f5baec4e9edf01cec95a23f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a412114eea26ee48a6fa0add6b78c553') in 0.011009 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 3
+========================================================================
+Received Import Request.
+  Time since last request: 0.000243 seconds.
+  path: Assets/LI XIANG/CatlandsGames/9FreeBackgrounds/BackgroundsPNG/Background4.png
+  artifactKey: Guid(b458264e3544a5c48a2af652879e1fcc) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/LI XIANG/CatlandsGames/9FreeBackgrounds/BackgroundsPNG/Background4.png using Guid(b458264e3544a5c48a2af652879e1fcc) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '24e7903bf7f266fdb1f137ddd1f09456') in 0.011218 seconds
+Number of updated asset objects reloaded before import = 0
+Number of asset objects unloaded after import = 3
+Editor requested this worker to shutdown with reason: Scaling down because of idle timeout
+TcpMessagingSession - receive error: operation aborted. errorcode: 995, details: ÓÉÓÚÏß³ÌÍË³ö»òÓ¦ÓÃ³ÌĞòÇëÇó£¬ÒÑÖĞÖ¹ I/O ²Ù×÷¡£
+AssetImportWorker is now disconnected from the server
+Process exiting
+Exiting without the bug reporter. Application will terminate with return code 0
