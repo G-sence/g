@@ -1,0 +1,23 @@
+[33m103525b[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m Revert "TMPを使っているためpackagesとusersettingsアップロード追加"
+[33m33da069[m TMPを使っているためpackagesとusersettingsアップロード追加
+[33m939ebaa[m 時間のuiを簡単に用意した、背景の配置を完成した、レベル要素を追加した
+[33m82fb3e0[m 共有フォルダの整理 ㎰：AssetsとProjectSettings二つのフォルダだけでプロジェクト管理が出来る。
+[33m610c3b1[m 背景の編集とスクロールコードの追加
+[33m3d6446a[m no message
+[33m16b3b69[m[33m ([m[1;33mtag: [m[1;33mv0.0[m[33m)[m no message
+[33me40f056[m v0.0
+[33mb65e83e[m no message
+[33m3245586[m Temple
+[33m2a28f47[m Delete 更新说明.txt
+[33mbae0ebe[m Delete M0A23295.txt
+[33mc5f159d[m Delete G-Sence.sln
+[33m31e54b3[m Delete Assembly-CSharp.csproj
+[33mbbdd400[m Add files via upload
+[33m30b048c[m Merge branch 'main' of https://github.com/G-sence/g
+[33m1bfd9e2[m もう一度
+[33mf0cce5a[m Revert "v0.1"
+[33mf46b7b9[m v0.1
+[33mb6380f9[m v0.1
+[33m3de9e58[m test
+[33m83f0715[m no message
+[33m44ec96d[m Initial commit
