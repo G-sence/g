@@ -131,6 +131,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3247452564146102521, guid: a1397c6c42134a64c8e2e2363177c846, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5823759630252747502, guid: a1397c6c42134a64c8e2e2363177c846, type: 3}
       propertyPath: m_Name
       value: Stagetop (2)
@@ -429,7 +433,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 76ad1d09d40d3124d96b843158796493, type: 3}
   m_Name: 
@@ -735,6 +739,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3247452564146102521, guid: a1397c6c42134a64c8e2e2363177c846, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5823759630252747502, guid: a1397c6c42134a64c8e2e2363177c846, type: 3}
       propertyPath: m_Name
       value: Stagetop
