@@ -14,21 +14,23 @@ public class Player_contdemo : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        pos.x += 0.01f;
+
         if (Input.GetKey(KeyCode.RightArrow))
         {
-            pos.x += 0.01f;
+            pos.x += 0.02f;
         }
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            pos.x -= 0.01f;
+            pos.x -= 0.02f;
         }
         if (Input.GetKey(KeyCode.UpArrow))
         {
-            pos.y += 0.01f;
+            pos.y += 0.02f;
         }
         if (Input.GetKey(KeyCode.DownArrow))
         {
-            pos.y -= 0.01f;
+            pos.y -= 0.02f;
         }
         transform.position = pos;
     }
