@@ -13,6 +13,6 @@ public class scrol : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(-0.005f, 0, 0);//•Ï•Ÿ•Î•«•∂•§•Û§ÀèÍ§∏§∆°¢•Ÿ•Ø•»•Î∑ΩœÚ§Ú•ﬁ•§• •π§À–ﬁ’˝§∑§ø//
+        transform.Translate(-0.05f, 0, 0);
     }
 }
