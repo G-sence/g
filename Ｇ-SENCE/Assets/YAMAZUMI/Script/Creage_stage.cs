@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-// stageコードを最適化済み
+// stageコードを鹠化済み
 public enum Stage
 {
     Normal,
@@ -32,11 +32,11 @@ public class CreateStage : MonoBehaviour
         previousStage = Instantiate(stagePrefab, new Vector3(0f, 5.5f, 0), Quaternion.identity);
         currentStage = previousStage;
 
-        InvokeRepeating("GenerateNewStage", 0f, 3f); // 生成時間（始まり,間隔）
+        InvokeRepeating("GenerateNewStage", 0f, 3f); // 生成時間（始まE間隔）
     }
 
     void Update()
-    {//ステージ移動
+    {//ステージ移丒
         if (currentStage != null)
         {
             currentStage.transform.Translate(-0.01f, 0, 0);
@@ -62,7 +62,7 @@ public class CreateStage : MonoBehaviour
 
     IEnumerator DestroyPreviousStageAfterDelay()
     {
-        yield return new WaitForSeconds(10f);
+        yield return new WaitForSeconds(20f);
         if (previousStage != null)
         {
             Destroy(previousStage);

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - wall
   - sencer
+  - levelObjects
   layers:
   - Default
   - TransparentFX

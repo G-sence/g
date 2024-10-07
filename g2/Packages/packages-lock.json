@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "com.unity.probuilder": {
-      "version": "5.1.1",
+      "version": "5.2.3",
       "depth": 0,
       "source": "registry",
       "dependencies": {
