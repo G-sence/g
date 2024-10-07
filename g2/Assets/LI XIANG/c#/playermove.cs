@@ -1,5 +1,8 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-//wasdで移動、shiftでダッシュ、Mpを消費し小さい頃しか使えない
+using UnityEngine.UI;
+//wasdで移丒、shiftでダッシュ、Mpを消費し小さいしか使えない
 public class PlayerMove : MonoBehaviour
 {
     public float moveSpeed = 10f;
@@ -7,10 +10,10 @@ public class PlayerMove : MonoBehaviour
     public float dashDuration = 0.2f;
     public int dashCost = 1;
     public int cooltime = 1;
-    public float minX, maxX, minY, maxY;  // boxcolliderが時々効かないためコードで移动范围を制限する
+    public float minX, maxX, minY, maxY;  // boxcolliderが時々丒かないためコードで移动范围を制限すE
 
     public int maxHP = 100;
-    public int maxMP = 50;
+    public int maxMP = 10;
     public int currentHP;
     public int currentMP;
     public int currentEXP;
@@ -22,17 +25,31 @@ public class PlayerMove : MonoBehaviour
     public float dashCooldown = 1f;
     private Vector3 dashDirection;
 
+    public GameObject Expslider;    //懱椡僎乕僕僆僽僕僃僋僩傪奿擺偡傞曄悢
+    public GameObject Mpslider;    //懱椡僎乕僕僆僽僕僃僋僩傪奿擺偡傞曄悢
+
+
+    Slider MpGauge;                             //丂UI偺Slider宆曄悢丂hpGauge傪梡堄偟傑偡
+    Slider ExpGauge;                             //丂UI偺Slider宆曄悢丂hpGauge傪梡堄偟傑偡
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         currentHP = maxHP;
         currentMP = maxMP;
         currentEXP = 0;
+
+        MpGauge = Mpslider.GetComponent<Slider>();    //Slider傪庢傝崬傒傑偡
+        MpGauge.minValue = currentMP;       
+        
+        ExpGauge = Expslider.GetComponent<Slider>();    //Slider傪庢傝崬傒傑偡
+        ExpGauge.minValue = currentEXP;                             //懱椡僎乕僕偺嵟戝抣傪Slider偺嵟戝抣偵偟傑偡
+
     }
 
     void Update()
     {
-        currentEXP += 1;//一旦1にする
+        currentEXP += 1;//一旦1にすE
         if (!isDashing)
         {
             Move();
@@ -92,8 +109,8 @@ public class PlayerMove : MonoBehaviour
             dashDirection = rb.velocity.normalized;
             rb.velocity = dashDirection * dashSpeed;
             currentMP -= dashCost;
-            Invoke("EndDash", dashDuration);//ダッシュ時間、遅延処理関数
-            Invoke("ResetDashCooldown", dashCooldown);//クールタイム
+            Invoke("EndDash", dashDuration);//ダッシュ時間、遅延処利Hv数
+            Invoke("ResetDashCooldown", dashCooldown);//クーE骏ぅ丒
         }
     }
 
