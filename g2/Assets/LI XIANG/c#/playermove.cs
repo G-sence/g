@@ -12,7 +12,7 @@ public class PlayerMove : MonoBehaviour
     public int cooltime = 1;
     public float minX, maxX, minY, maxY;  // boxcolliderが時々丒かないためコードで移动范围を制限すE
 
-    public int maxHP = 100;
+    public int maxHP = 5;
     public int maxMP = 10;
     public int currentHP;
     public int currentMP;
@@ -24,6 +24,12 @@ public class PlayerMove : MonoBehaviour
     public bool canDash = true;
     public float dashCooldown = 1f;
     private Vector3 dashDirection;
+
+    public GameObject hitpoint1;
+    public GameObject hitpoint2;
+    public GameObject hitpoint3;
+    public GameObject hitpoint4;
+    public GameObject hitpoint5;
 
     public GameObject Expslider;    //懱椡僎乕僕僆僽僕僃僋僩傪奿擺偡傞曄悢
     public GameObject Mpslider;    //懱椡僎乕僕僆僽僕僃僋僩傪奿擺偡傞曄悢
@@ -58,6 +64,64 @@ public class PlayerMove : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.LeftShift) && currentMP >= dashCost && canDash)//ダッシュ条件
         {
             StartDash();
+        }
+
+        if (currentHP == 5)
+        {
+            hitpoint1.SetActive(true);
+            hitpoint2.SetActive(true);
+            hitpoint3.SetActive(true);
+            hitpoint4.SetActive(true);
+            hitpoint5.SetActive(true);
+        }
+        if (currentHP == 4)
+        {
+            hitpoint1.SetActive(true);
+            hitpoint2.SetActive(true);
+            hitpoint3.SetActive(true);
+            hitpoint4.SetActive(true);
+            hitpoint5.SetActive(false);
+        }
+        if (currentHP == 3)
+        {
+            hitpoint1.SetActive(true);
+            hitpoint2.SetActive(true);
+            hitpoint3.SetActive(true);
+            hitpoint4.SetActive(false);
+            hitpoint5.SetActive(false);
+        }
+        if (currentHP == 2)
+        {
+            hitpoint1.SetActive(true);
+            hitpoint2.SetActive(true);
+            hitpoint3.SetActive(false);
+            hitpoint4.SetActive(false);
+            hitpoint5.SetActive(false);
+        }
+        if (currentHP == 1)
+        {
+            hitpoint1.SetActive(true);
+            hitpoint2.SetActive(false);
+            hitpoint3.SetActive(false);
+            hitpoint4.SetActive(false);
+            hitpoint5.SetActive(false);
+        }
+        if (currentHP == 0)
+        {
+            hitpoint1.SetActive(false);
+            hitpoint2.SetActive(false);
+            hitpoint3.SetActive(false);
+            hitpoint4.SetActive(false);
+            hitpoint5.SetActive(false);
+        }
+
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.tag =="wall")
+        {
+            currentHP = currentHP - 1;
         }
     }
 
@@ -129,7 +193,7 @@ public class PlayerMove : MonoBehaviour
         currentHP -= damage;
         if (currentHP <= 0)
         {
-            currentHP = 0;///////////////////////////////////////////////
+            currentHP = 0;
         }
     }
 
@@ -138,7 +202,7 @@ public class PlayerMove : MonoBehaviour
         currentMP -= mana;
         if (currentMP < 0)
         {
-            currentMP = 0;///////////////////////////////////
+            currentMP = 0;
         }
     }
 
@@ -155,7 +219,7 @@ public class PlayerMove : MonoBehaviour
     void LevelUp()
     {
         level++;
-        maxHP += 20;
+        maxHP =5;
         maxMP += 10;
         currentHP = maxHP;
         currentMP = maxMP;
