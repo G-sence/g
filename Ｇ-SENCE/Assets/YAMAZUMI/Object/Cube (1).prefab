@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4661615717723540933}
   - component: {fileID: 5385349932039668513}
   - component: {fileID: 3569869768267181682}
+  - component: {fileID: 4498086680868906726}
   m_Layer: 0
   m_Name: Cube (1)
   m_TagString: Untagged
@@ -133,3 +134,24 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!114 &4498086680868906726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4361558205201555542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f49ab3ee40cc32c479e5bae8edf6ae66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnPosition: {x: 0, y: 0, z: 0}
+  stagePrefab: {fileID: 8936595210891313875, guid: d5569352ad4cf5a409eeb2b3c5fc9016, type: 3}
+  stages:
+  - {fileID: 5546479069407588454, guid: ca191023b2e6bdf48996f3537e5414bb, type: 3}
+  - {fileID: 2699691030681356995, guid: 4d6c9f5b483fa304996dbbbcd32e9fde, type: 3}
+  - {fileID: 6226575014948521435, guid: 7b97f79972612f849acc6cef4df3ede2, type: 3}
+  - {fileID: 8389343877209189174, guid: c6ebb0d8c5074d9419fb43fa25b2e411, type: 3}
+  - {fileID: 2795410712245675909, guid: 9bd5ec3d67073b547b9055515b036f9d, type: 3}
+  transparentCylinderPrefab: {fileID: 0}
