@@ -1,9 +1,10 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemyshot : MonoBehaviour
 {
+    public PlayerMove playermove;
     public GameObject shellPrefab;
     private int count;
 
@@ -11,16 +12,16 @@ public class Enemyshot : MonoBehaviour
     {
         count += 1;
 
-        if (count % 100 == 0)
+        if (count % 200 == 0)
         {
-            // ’e‚ğ”­Ë‚·‚é
+            // å¼¾ã‚’ç™ºå°„ã™ã‚‹
             GameObject shell = Instantiate(shellPrefab, transform.position, Quaternion.identity);
             Rigidbody shellRb = shell.GetComponent<Rigidbody>();
 
-            // ’e‘¬‚Í©—R‚Éİ’è
+            // å¼¾ã‚’ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«å‘ã‘ã¦é£›ã°ã™
             shellRb.AddForce(transform.forward * 500);
 
-            // 4•bŒã‚É–C’e‚ğ”j‰ó‚·‚é
+            // 4ç§’å¾Œã«å¼¾ã‚’ç ´å£Šã™ã‚‹
             Destroy(shell, 4.0f);
         }
     }
@@ -29,6 +30,7 @@ public class Enemyshot : MonoBehaviour
     {
         if (collider.gameObject.tag == "Player")
         {
+            playermove.TakeDamage(1);
             Debug.Log("Player hit");
         }
     }

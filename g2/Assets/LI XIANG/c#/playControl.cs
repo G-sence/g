@@ -1,66 +1,67 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro; // TextMeshPro   UI
 
 public class PlayControl : MonoBehaviour
 {
-    public GameObject bg1; // BG1¤Î±³¾°
-    public GameObject bg2; // BG2¤Î±³¾°
-    public GameObject bg3; // BG3¤Î±³¾°
+    public GameObject bg1; // BG1ã®èƒŒæ™¯
+    public GameObject bg2; // BG2ã®èƒŒæ™¯
+    public GameObject bg3; // BG3ã®èƒŒæ™¯
+    public float changetime = 20f;
 
-    public TextMeshProUGUI timerText; // •rég¤ò±íÊ¾¤¹¤ëTextMeshPro¤ÎUI¥Æ¥­¥¹¥È
+    public TextMeshProUGUI timerText; // æ™‚é–“ã‚’è¡¨ç¤ºã™ã‚‹TextMeshProã®UIãƒ†ã‚­ã‚¹ãƒˆ
 
-    public static int currentLevel = 1; // Ëû¤Î¥¹¥¯¥ê¥×¥È¤Çint currentLevel = PlayControl.currentLevel¤ÇÊ¹¤¦;
+    public static int currentLevel = 1; // ä»–ã®ã‚¹ã‚¯ãƒªãƒ—ãƒˆã§int currentLevel = PlayControl.currentLevelã§ä½¿ã†;
 
-    private GameObject currentBg; // ¬FÔÚ¤Î±³¾°
-    private float timer = 0f; // ¥¿¥¤¥Ş©`¡¢½Uß^•rég¤òÓ›åh
+    private GameObject currentBg; // ç¾åœ¨ã®èƒŒæ™¯
+    private float timer = 0f; // ã‚¿ã‚¤ãƒãƒ¼ã€çµŒéæ™‚é–“ã‚’è¨˜éŒ²
 
     void Start()
     {
-        // ±³¾°¤ò³õÆÚ»¯
+        // èƒŒæ™¯ã‚’åˆæœŸåŒ–
         currentBg = bg1;
         ActivateBackground(currentBg);
     }
 
     void Update()
     {
-        // ¬FÔÚ¤Î±³¾°¤ò¥¹¥¯¥í©`¥ë¤µ¤»¤ë
+        // ç¾åœ¨ã®èƒŒæ™¯ã‚’ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«ã•ã›ã‚‹
         currentBg.GetComponent<Renderer>().material.SetTextureOffset("_MainTex", new Vector2(Time.time / 5, 0));
 
-        // ¥¿¥¤¥Ş©`¤ò¸üĞÂ
+        // ã‚¿ã‚¤ãƒãƒ¼ã‚’æ›´æ–°
         timer += Time.deltaTime;
 
-        // ·Ö¤ÈÃë¤òÓ‹Ëã
+        // åˆ†ã¨ç§’ã‚’è¨ˆç®—
         int minutes = (int)(timer / 60);
         int seconds = (int)(timer % 60);
 
-        // »­ÃæÉÏ¤Î•rég±íÊ¾¤ò¸üĞÂ
-        timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);/////////UI¥È¥é¥Ö¥ë¡¢ĞŞÕıÓè¶¨
+        // ç”»é¢ä¸Šã®æ™‚é–“è¡¨ç¤ºã‚’æ›´æ–°
+        timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);/////////UIãƒˆãƒ©ãƒ–ãƒ«ã€ä¿®æ­£äºˆå®š
 
-        // 5·Ö¤´¤È¤Ë´Î¤Î¥ì¥Ù¥ë¤ËÇĞ¤êÌæ¤¨¤ë¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡////////¥Æ¥¹¥È¤Î¤¿¤á¡¢3Ãë¤ËÔO¶¨///////
-        if (timer >= 3f)
+        // 5åˆ†ã”ã¨ã«æ¬¡ã®ãƒ¬ãƒ™ãƒ«ã«åˆ‡ã‚Šæ›¿ãˆã‚‹ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€////////ãƒ†ã‚¹ãƒˆã®ãŸã‚ã€3ç§’ã«è¨­å®š///////
+        if (timer >= changetime)
         {
-            timer = 0f; // ¥¿¥¤¥Ş©`¤ò¥ê¥»¥Ã¥È
+            timer = 0f; // ã‚¿ã‚¤ãƒãƒ¼ã‚’ãƒªã‚»ãƒƒãƒˆ
             currentLevel++;
 
-            //// ¥ì¥Ù¥ë¤¬×î´ó‚¤ò³¬¤¨¤¿¤é×î³õ¤Ë‘ø¤ë////
+            //// ãƒ¬ãƒ™ãƒ«ãŒæœ€å¤§å€¤ã‚’è¶…ãˆãŸã‚‰æœ€åˆã«æˆ»ã‚‹////
             if (currentLevel > 3)
             {
                 currentLevel = 1;
             }
 
-            // ¥ì¥Ù¥ë¤òÇĞ¤êÌæ¤¨¤ë
+            // ãƒ¬ãƒ™ãƒ«ã‚’åˆ‡ã‚Šæ›¿ãˆã‚‹
             ChangeLevel(currentLevel);
         }
     }
 
-    // ¥ì¥Ù¥ë¤ò‰ä¸ü¤·¡¢±³¾°¤òÇĞ¤êÌæ¤¨¤ë
+    // ãƒ¬ãƒ™ãƒ«ã‚’å¤‰æ›´ã—ã€èƒŒæ™¯ã‚’åˆ‡ã‚Šæ›¿ãˆã‚‹
     void ChangeLevel(int level)
     {
         currentLevel = level;
 
-        // ¥ì¥Ù¥ë¤Ëê¤¸¤Æ±³¾°¤òßx’k
+        // ãƒ¬ãƒ™ãƒ«ã«å¿œã˜ã¦èƒŒæ™¯ã‚’é¸æŠ
         switch (currentLevel)
         {
             case 1:
@@ -77,11 +78,11 @@ public class PlayControl : MonoBehaviour
                 break;
         }
 
-        // ĞÂ¤·¤¤±³¾°¤ò¥¢¥¯¥Æ¥£¥Ö»¯¤·¡¢Ëû¤Î±³¾°¤ò·Ç¥¢¥¯¥Æ¥£¥Ö»¯
+        // æ–°ã—ã„èƒŒæ™¯ã‚’ã‚¢ã‚¯ãƒ†ã‚£ãƒ–åŒ–ã—ã€ä»–ã®èƒŒæ™¯ã‚’éã‚¢ã‚¯ãƒ†ã‚£ãƒ–åŒ–
         ActivateBackground(currentBg);
     }
 
-    // Ö¸¶¨¤·¤¿±³¾°¤ò¥¢¥¯¥Æ¥£¥Ö»¯¤·¡¢Ëû¤Î±³¾°¤ò·Ç¥¢¥¯¥Æ¥£¥Ö»¯
+    // æŒ‡å®šã—ãŸèƒŒæ™¯ã‚’ã‚¢ã‚¯ãƒ†ã‚£ãƒ–åŒ–ã—ã€ä»–ã®èƒŒæ™¯ã‚’éã‚¢ã‚¯ãƒ†ã‚£ãƒ–åŒ–
     void ActivateBackground(GameObject bgToActivate)
     {
         bg1.SetActive(bgToActivate == bg1);

@@ -118,6 +118,7 @@
 -define:ENABLE_TIMELINE
 -define:ENABLE_LEGACY_INPUT_MANAGER
 -define:TEXTCORE_FONT_ENGINE_1_5_OR_NEWER
+-define:UNITY_POST_PROCESSING_STACK_V2
 -define:CSHARP_7_OR_LATER
 -define:CSHARP_7_3_OR_NEWER
 -r:"C:/Program Files/Unity/Hub/Editor/2022.3.10f1/Editor/Data/Managed/UnityEngine/UnityEditor.CoreModule.dll"
@@ -325,6 +326,8 @@
 -r:"C:/Program Files/Unity/Hub/Editor/2022.3.10f1/Editor/Data/NetStandard/compat/2.1.0/shims/netstandard/System.Xml.XPath.XDocument.dll"
 -r:"C:/Program Files/Unity/Hub/Editor/2022.3.10f1/Editor/Data/NetStandard/Extensions/2.0.0/System.Runtime.InteropServices.WindowsRuntime.dll"
 -r:"C:/Program Files/Unity/Hub/Editor/2022.3.10f1/Editor/Data/NetStandard/ref/2.1.0/netstandard.dll"
+-r:"Library/Bee/artifacts/1900b0aE.dag/Unity.Postprocessing.Editor.ref.dll"
+-r:"Library/Bee/artifacts/1900b0aE.dag/Unity.Postprocessing.Runtime.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aE.dag/Unity.ProBuilder.AddOns.Editor.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aE.dag/Unity.ProBuilder.AssetIdRemapUtility.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aE.dag/Unity.ProBuilder.Editor.ref.dll"
@@ -337,9 +340,14 @@
 -analyzer:"C:/Program Files/Unity/Hub/Editor/2022.3.10f1/Editor/Data/Tools/Unity.SourceGenerators/Unity.SourceGenerators.dll"
 "Assets/LI XIANG/c#/DestroyEverything.cs"
 "Assets/LI XIANG/c#/DragonGrowth.cs"
+"Assets/LI XIANG/c#/Enemy.cs"
 "Assets/LI XIANG/c#/playControl.cs"
 "Assets/LI XIANG/c#/playermove.cs"
+"Assets/LI XIANG/c#/Projectile.cs"
 "Assets/LI XIANG/Fonts/Script/scriptTexttest.cs"
+"Assets/LI XIANG/model/laser/CannonBehavior.cs"
+"Assets/LI XIANG/model/laser/ShotBehavior.cs"
+"Assets/LI XIANG/model/laser/VolumetricLineBehavior.cs"
 "Assets/LI XIANG/TextMesh Pro/Examples & Extras/Scripts/Benchmark01.cs"
 "Assets/LI XIANG/TextMesh Pro/Examples & Extras/Scripts/Benchmark01_UGUI.cs"
 "Assets/LI XIANG/TextMesh Pro/Examples & Extras/Scripts/Benchmark02.cs"
@@ -374,6 +382,17 @@
 "Assets/LI XIANG/TextMesh Pro/Examples & Extras/Scripts/VertexShakeB.cs"
 "Assets/LI XIANG/TextMesh Pro/Examples & Extras/Scripts/VertexZoom.cs"
 "Assets/LI XIANG/TextMesh Pro/Examples & Extras/Scripts/WarpTextExample.cs"
+"Assets/UnityTechnologies/ParticlePack/EffectExamples/Misc Effects/Scripts/SpawnEffect.cs"
+"Assets/UnityTechnologies/ParticlePack/Shared/Ramps/Runtime/RampAsset.cs"
+"Assets/UnityTechnologies/ParticlePack/Shared/Scripts/AdjustTimeScale.cs"
+"Assets/UnityTechnologies/ParticlePack/Shared/Scripts/ProximityActivate.cs"
+"Assets/UnityTechnologies/ParticlePack/Shared/Scripts/SimpleCameraController.cs"
+"Assets/UnityTechnologies/ParticlePack/Shared/Scripts/SimpleCharacterMotor.cs"
+"Assets/UnityTechnologies/ParticlePack/TutorialInfo/Scripts/Readme.cs"
+"Assets/VolumetricLines/BuiltInRenderPipeline/ExampleScenes/ExampleScripts/CreateSinShapedLineStrip.cs"
+"Assets/VolumetricLines/BuiltInRenderPipeline/ExampleScenes/ExampleScripts/VolumetricMultiLineBehavior.cs"
+"Assets/VolumetricLines/Scripts/VolumetricLineStripBehavior.cs"
+"Assets/VolumetricLines/Scripts/VolumetricLineVertexData.cs"
 "Assets/YAMAZUMI/Script/Creage_stage.cs"
 "Assets/YAMAZUMI/Script/Enemyshot.cs"
 "Assets/YAMAZUMI/Script/Player_cont demo.cs"
