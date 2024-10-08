@@ -41,7 +41,7 @@ public class PlayerMove : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        currentHP = maxHP;
+        currentHP = 5;
         currentMP = maxMP;
         currentEXP = 0;
 
@@ -123,6 +123,12 @@ public class PlayerMove : MonoBehaviour
         {
             currentHP = currentHP - 1;
         }
+        if (collision.gameObject.tag == "Enemy")
+        {
+            currentHP = currentHP - 1;
+            Destroy(collision.gameObject);
+        }
+
     }
 
     void Move()

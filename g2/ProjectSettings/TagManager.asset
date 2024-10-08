@@ -7,6 +7,7 @@ TagManager:
   - wall
   - sencer
   - levelObjects
+  - Enemy
   layers:
   - Default
   - TransparentFX
