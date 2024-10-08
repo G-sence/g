@@ -8,16 +8,28 @@ public class Projectile : MonoBehaviour
     public int damage = 1;
     // 追尾対象
     private Transform target;
+    private Vector3 direction;
 
-    void Update()
+    void Start()
     {
-        // ターゲットが設定されている場合、ターゲットの方向に移動
         if (target != null)
         {
-            Vector3 direction = (target.position - transform.position).normalized;
-            transform.Translate(direction * speed * Time.deltaTime, Space.World);
+            direction = (target.position - transform.position).normalized; // 発射時に一度だけプレイヤーの方向を計算
         }
     }
+    void Update()
+    {
+        transform.Translate(direction * speed * Time.deltaTime, Space.World);
+    }
+    //void Update()
+    //{
+        // ターゲットが設定されている場合、ターゲットの方向に移動
+      //  if (target != null)
+    //    {
+    //        Vector3 direction = (target.position - transform.position).normalized;
+    //        transform.Translate(direction * speed * Time.deltaTime, Space.World);
+    //    }
+ //   }
 
     // ターゲットを設定するメソッド
     public void SetTarget(Transform targetTransform)

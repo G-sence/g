@@ -1,5 +1,4 @@
-﻿// UTF-8に修正
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,20 +6,18 @@ using UnityEngine.UI;
 // WASDで移動、Shiftでダッシュ、MPを消費し小さい頃しか使えない
 public class PlayerMove : MonoBehaviour
 {
+    public float PASCECODE = 0f;
     public DragonGrowth dragonGrowth;
     public int WallDamage = 1;  // 壁に衝突した際のダメージ量
     public float moveSpeed = 10f;  // 通常の移動速度
-    public float dashSpeed = 20f;  // ダッシュ時の速度
+    public float dashSpeed = 30f;  // ダッシュ時の速度
     public float dashDuration = 0.2f;  // ダッシュの継続時間
     public int dashCost = 1;  // ダッシュの際に消費するMP
     public int cooltime = 1;  // クールタイム
     public float minX, maxX, minY, maxY;   // BoxColliderが時々効かないためコードで移動範囲を制限する
     public float knockbackForce = 5f;  // 壁に衝突した際のノックバック力
 
-// HEAD
-    public int maxHP = 3;  // 最大HP
-//
-// parent of 0e42022b (敵の攻撃の調整)
+    public int maxHP = 1;  // 最大HP
     public int maxMP = 10;  // 最大MP
     public int currentHP;  // 現在のHP
     public int currentMP;  // 現在のMP
@@ -38,9 +35,9 @@ public class PlayerMove : MonoBehaviour
     public bool isBigDragon = false;
     public bool isInvincible = false;  // 霸体状態のフラグ
     public bool isExpLocked = false;  // 経験値がロックされているかどうかのフラグ
-    /// <summary>
-    /// 
-    /// </summary>
+    public bool canUseLaser = false;  // レーザーを使えるかどうかのフラグ
+    public bool canUseFire = false;  // 火焰を使えるかどうかのフラグ
+
     public GameObject laserPrefab;  // レーザー攻撃のプレハブ
     public Transform laserSpawnPoint;  // レーザーの発射位置
     public GameObject flamePrefab;  // 火炎攻撃のプレハブ
@@ -104,12 +101,12 @@ public class PlayerMove : MonoBehaviour
             UseMana(dashCost);
         }
 
-        if (Input.GetKeyDown(KeyCode.J) && currentMP > 0)  // Jキーでレーザー攻撃（キーを押した瞬間だけ）
+        if (canUseLaser && Input.GetKeyDown(KeyCode.J) && currentMP > 0)  // Jキーでレーザー攻撃（キーを押した瞬間だけ）
         {
             StartCoroutine(FireLaser());
         }
 
-        if (Input.GetKeyDown(KeyCode.K) && currentMP > 0)  // Kキーで火炎攻撃（キーを押した瞬間だけ）
+        if (canUseFire && Input.GetKeyDown(KeyCode.K) && currentMP > 0)  // Kキーで火炎攻撃（キーを押した瞬間だけ）
         {
             StartCoroutine(FireFlame());
         }
@@ -210,6 +207,7 @@ public class PlayerMove : MonoBehaviour
             dashDirection = rb.velocity.normalized;
             rb.velocity = dashDirection * dashSpeed;
             currentMP -= dashCost;
+            Time.timeScale = 0.5f;
             Invoke("EndDash", dashDuration);
             Invoke("ResetDashCooldown", dashCooldown);
         }
@@ -217,6 +215,7 @@ public class PlayerMove : MonoBehaviour
 
     void EndDash()
     {
+        Time.timeScale = 1f;
         isDashing = false;
         playerCollider.enabled = true; // ダッシュ終了後にColliderを有効にする
     }
@@ -235,7 +234,7 @@ public class PlayerMove : MonoBehaviour
             if (currentHP <= 0)
             {
                 currentHP = 0;
-                Time.timeScale = 0f;
+                PASCECODE = 0f;
             }
         }
     }
@@ -265,8 +264,8 @@ public class PlayerMove : MonoBehaviour
     void LevelUp()
     {
         level++;
-        maxHP += 5;
-        maxMP += 10;
+        maxHP += 1;
+        maxMP += 5;
         attackPower += 5;  // 攻撃力を増加
         currentHP = maxHP;
         currentMP = maxMP;
@@ -307,7 +306,7 @@ public class PlayerMove : MonoBehaviour
         MpGauge.value = (float)currentMP / maxMP;  // MPスライダーの値を更新
     }
 
-    IEnumerator FireFlame()
+    public IEnumerator FireFlame()
     {
         // 火炎攻撃アニメーションを再生
         animator.SetTrigger("FireFlame");

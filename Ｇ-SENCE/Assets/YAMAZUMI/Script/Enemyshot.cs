@@ -43,4 +43,8 @@ public class EnemyShot : MonoBehaviour
         }
         Destroy(projectile, 3f); // 弾丸を3秒後に破壊
     }
+    public void IncreaseFireFrequency()
+    {
+        fireInterval = Mathf.Max(0.2f, fireInterval / 2); // 発射間隔を半分にし、最低でも0.1秒に制限
+    }
 }

@@ -1209,8 +1209,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHP: 10
-  scoreManager: {fileID: 0}
-  moveSpeed: 3
+  targetObject: {fileID: 6250854658118463694, guid: f3427050e0c05524b86af317bb797047, type: 3}
+  moveSpeed: 2
+  arcHeight: 2
 --- !u!136 &3027348393354712512
 CapsuleCollider:
   m_ObjectHideFlags: 0
