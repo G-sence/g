@@ -62,7 +62,7 @@ public class CreateStage : MonoBehaviour
 
     IEnumerator DestroyPreviousStageAfterDelay()
     {
-        yield return new WaitForSeconds(20f);
+        yield return new WaitForSeconds(1000f);
         if (previousStage != null)
         {
             Destroy(previousStage);
