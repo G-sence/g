@@ -35,7 +35,7 @@ public class CreateStage : MonoBehaviour
         previousStage = Instantiate(stagePrefab, new Vector3(0f, 5.5f, 0), Quaternion.identity);
         currentStage = previousStage;
 
-        InvokeRepeating("GenerateNewStage", 0f, 3f); // 生成時間（始まる時間と間隔）
+        InvokeRepeating("GenerateNewStage", 0f, 20f); // 生成時間（始まる時間と間隔）
     }
 
     void Update()
@@ -43,11 +43,11 @@ public class CreateStage : MonoBehaviour
         // ステージ移動
         if (currentStage != null)
         {
-            currentStage.transform.Translate(-0.01f, 0, 0);
+            currentStage.transform.Translate(-0.003f, 0, 0);
         }
         if (previousStage != null)
         {
-            previousStage.transform.Translate(-0.01f, 0, 0);
+            previousStage.transform.Translate(-0.08f, 0, 0);
         }
     }
 
@@ -82,7 +82,7 @@ public class CreateStage : MonoBehaviour
 
     IEnumerator DestroyPreviousStageAfterDelay()
     {
-        yield return new WaitForSeconds(20f);
+        yield return new WaitForSeconds(1f);
         if (previousStage != null)
         {
             Destroy(previousStage);

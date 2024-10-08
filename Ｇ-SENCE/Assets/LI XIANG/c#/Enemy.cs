@@ -1,77 +1,65 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using TMPro;
 
 public class Enemy : MonoBehaviour
 {
-    public int maxHP = 50;  // 敵の最大HP
-    public int currentHP;  // 現在のHP
-    public float moveSpeed = 3f;  // 敵の移動速度
-    public float attackRange = 10f;  // 攻撃範囲
-    public int attackPower = 10;  // 攻撃力
-    public float attackCooldown = 2f;  // 攻撃のクールダウン時間
-
-    public GameObject projectilePrefab;  // 発射する弾丸のプレハブ
-    public Transform firePoint;  // 弾丸の発射位置
-    public float projectileSpeed = 5f;  // 弾丸の速度
-
-    private GameObject player;  // プレイヤーオブジェクトの参照
-    private bool canAttack = true;  // 攻撃可能かどうかのフラグ
+    // 敵の最大HP
+    public int maxHP = 10;
+    // 現在のHP
+    private int currentHP;
+    // スコアの参照
+    public ScoreManager scoreManager;
+    // プレイヤーのTransform
+    private Transform playerTransform;
+    // 敵の移動速度
+    public float moveSpeed = 3f;
 
     void Start()
     {
-        currentHP = maxHP;
-        player = GameObject.FindGameObjectWithTag("Player");
+        currentHP = maxHP; // HPを初期化
+        playerTransform = GameObject.FindGameObjectWithTag("Player").transform; // プレイヤーの位置を取得
     }
 
     void Update()
     {
-        if (player != null)
+        // プレイヤーに向かって移動
+        if (playerTransform != null)
         {
-            MoveTowardsPlayer();
-            if (Vector3.Distance(transform.position, player.transform.position) <= attackRange && canAttack)
-            {
-                StartCoroutine(FireProjectile());
-            }
-        }
-    }
-
-    void MoveTowardsPlayer()
-    {
-        if (Vector3.Distance(transform.position, player.transform.position) > attackRange)
-        {
-            Vector3 direction = (player.transform.position - transform.position).normalized;
+            Vector3 direction = (playerTransform.position - transform.position).normalized;
             transform.position += direction * moveSpeed * Time.deltaTime;
+
+            // プレイヤーの方向に向けて回転
+            Quaternion lookRotation = Quaternion.LookRotation(playerTransform.position - transform.position);
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
         }
     }
 
-    IEnumerator FireProjectile()
-    {
-        canAttack = false;
-        // 弾丸を生成し、プレイヤーに向かって追尾させる
-        GameObject projectile = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
-        Projectile projectileScript = projectile.GetComponent<Projectile>();
-        if (projectileScript != null)
-        {
-            projectileScript.SetTarget(player, projectileSpeed);
-        }
-        yield return new WaitForSeconds(attackCooldown);
-        canAttack = true;
-    }
-
+    // ダメージを受けるメソッド
     public void TakeDamage(int damage)
     {
         currentHP -= damage;
         if (currentHP <= 0)
         {
-            Die();
+            Die(); // HPが0以下になった場合は死亡
         }
     }
 
+    // 死亡時の処理
     void Die()
     {
-        Debug.Log("敵が倒されました");
-        // 死亡アニメーションを再生する場合、ここでトリガーする
-        Destroy(gameObject);
+        if (scoreManager != null)
+        {
+            scoreManager.AddScore(100); // 敵を倒したら100点加算
+        }
+        Destroy(gameObject); // 敵オブジェクトを破壊
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        // レーザーまたは火炎に当たった場合
+        if (other.CompareTag("Laser") || other.CompareTag("Fire"))
+        {
+            TakeDamage(10); // レーザーまたは火炎に当たると1ダメージを受ける
+        }
     }
 }

@@ -8,7 +8,7 @@ public class PlayControl : MonoBehaviour
     public GameObject bg1; // BG1の背景
     public GameObject bg2; // BG2の背景
     public GameObject bg3; // BG3の背景
-    public float changetime = 20f;
+    public float changetime = 120f;
 
     public TextMeshProUGUI timerText; // 時間を表示するTextMeshProのUIテキスト
 
@@ -27,7 +27,7 @@ public class PlayControl : MonoBehaviour
     void Update()
     {
         // 現在の背景をスクロールさせる
-        currentBg.GetComponent<Renderer>().material.SetTextureOffset("_MainTex", new Vector2(Time.time / 5, 0));
+        currentBg.GetComponent<Renderer>().material.SetTextureOffset("_MainTex", new Vector2(Time.time / 50, 0));
 
         // タイマーを更新
         timer += Time.deltaTime;
@@ -39,7 +39,7 @@ public class PlayControl : MonoBehaviour
         // 画面上の時間表示を更新
         timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);/////////UIトラブル、修正予定
 
-        // 5分ごとに次のレベルに切り替える　　　　　　　　　　　////////テストのため、3秒に設定///////
+        // 5分ごとに次のレベルに切り替える　　　　　　　　　　　////////テストのため、120秒に設定///////
         if (timer >= changetime)
         {
             timer = 0f; // タイマーをリセット

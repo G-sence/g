@@ -1,37 +1,46 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class Enemyshot : MonoBehaviour
+public class EnemyShot : MonoBehaviour
 {
-    public PlayerMove playermove;
-    public GameObject shellPrefab;
-    private int count;
+    // 弾丸のPrefab
+    public GameObject projectilePrefab;
+    // プレイヤーのTransform
+    private Transform playerTransform;
+    // 発射間隔の制御用
+    private float elapsedTime;
+    // 発射頻度（Inspectorで編集可能）
+    public float fireInterval = 3f;
+
+    void Start()
+    {
+        // プレイヤーの位置を取得
+        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        // 発射タイマー初期化
+        elapsedTime = -5.0f; // ゲーム開始後5秒後に発射開始
+    }
 
     void Update()
     {
-        count += 1;
+        // 経過時間を更新
+        elapsedTime += Time.deltaTime;
 
-        if (count % 200 == 0)
+        // 発射間隔をfireIntervalで調整しながら攻撃
+        if (elapsedTime > fireInterval)
         {
-            // 弾を発射する
-            GameObject shell = Instantiate(shellPrefab, transform.position, Quaternion.identity);
-            Rigidbody shellRb = shell.GetComponent<Rigidbody>();
-
-            // 弾をプレイヤーに向けて飛ばす
-            shellRb.AddForce(transform.forward * 500);
-
-            // 4秒後に弾を破壊する
-            Destroy(shell, 4.0f);
+            FireProjectile();
+            elapsedTime = 0; // 発射後、時間をリセット
         }
     }
 
-    void OnTriggerEnter(Collider collider)
+    // プレイヤーに向けて追尾弾を発射
+    void FireProjectile()
     {
-        if (collider.gameObject.tag == "Player")
+        GameObject projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
+        Projectile projectileScript = projectile.GetComponent<Projectile>();
+        if (projectileScript != null)
         {
-            playermove.TakeDamage(1);
-            Debug.Log("Player hit");
+            projectileScript.SetTarget(playerTransform); // プレイヤーをターゲットに設定
         }
+        Destroy(projectile, 3f); // 弾丸を3秒後に破壊
     }
 }

@@ -38,6 +38,14 @@ public class PlayerMove : MonoBehaviour
     public bool isBigDragon = false;
     public bool isInvincible = false;  // 霸体状態のフラグ
     public bool isExpLocked = false;  // 経験値がロックされているかどうかのフラグ
+    /// <summary>
+    /// 
+    /// </summary>
+    public GameObject laserPrefab;  // レーザー攻撃のプレハブ
+    public Transform laserSpawnPoint;  // レーザーの発射位置
+    public GameObject flamePrefab;  // 火炎攻撃のプレハブ
+    public Transform flameSpawnPoint;  // 火炎の発射位置
+    public Animator animator;  // プレイヤーのアニメーター
 
     public GameObject hitpoint1;  // ヒットポイントのUIオブジェクト
     public GameObject hitpoint2;  // ヒットポイントのUIオブジェクト
@@ -45,11 +53,10 @@ public class PlayerMove : MonoBehaviour
     public GameObject hitpoint4;  // ヒットポイントのUIオブジェクト
     public GameObject hitpoint5;  // ヒットポイントのUIオブジェクト
 
+    private Collider playerCollider;  // プレイヤーのコライダー
+
     public GameObject Expslider;    // 経験値スライダー
     public GameObject Mpslider;    // MPスライダー
-
-    public GameObject laserPrefab;  // レーザー攻撃のプレハブ
-    public Transform laserSpawnPoint;  // レーザーの発射位置
 
     Slider MpGauge; // UIのスライダー
     Slider ExpGauge; // UIのスライダー
@@ -65,6 +72,7 @@ public class PlayerMove : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();  // Rigidbodyコンポーネントを取得
+        playerCollider = GetComponent<Collider>();  // Colliderコンポーネントを取得
         currentHP = maxHP;  // HPを最大に設定
         currentMP = maxMP;  // MPを最大に設定
         currentEXP = 0;  // 初期経験値を0に設定
@@ -98,12 +106,12 @@ public class PlayerMove : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.J) && currentMP > 0)  // Jキーでレーザー攻撃（キーを押した瞬間だけ）
         {
-            FireLaser();
+            StartCoroutine(FireLaser());
         }
 
-        if (isBigDragon)
+        if (Input.GetKeyDown(KeyCode.K) && currentMP > 0)  // Kキーで火炎攻撃（キーを押した瞬間だけ）
         {
-            audioSource.Stop();
+            StartCoroutine(FireFlame());
         }
 
         UpdateHitPoints();  // ヒットポイントUIの更新
@@ -140,6 +148,10 @@ public class PlayerMove : MonoBehaviour
             {
                 Destroy(collision.gameObject); // 大きなドラゴンの場合、壁を破壊する
             }
+        }
+        if (collision.gameObject.tag == "ammo")
+        {
+            Destroy(collision.gameObject);
         }
     }
 
@@ -194,6 +206,7 @@ public class PlayerMove : MonoBehaviour
         if (!isDashing)
         {
             isDashing = true;
+            playerCollider.enabled = false;
             dashDirection = rb.velocity.normalized;
             rb.velocity = dashDirection * dashSpeed;
             currentMP -= dashCost;
@@ -205,6 +218,7 @@ public class PlayerMove : MonoBehaviour
     void EndDash()
     {
         isDashing = false;
+        playerCollider.enabled = true; // ダッシュ終了後にColliderを有効にする
     }
 
     void ResetDashCooldown()
@@ -245,12 +259,6 @@ public class PlayerMove : MonoBehaviour
             {
                 LevelUp();
             }
-            else if (currentEXP >= dragonGrowth.growthThreshold && !isBigDragon && expFlashCoroutine == null)
-            {
-                isExpLocked = true;  // 経験値をロック
-                expFlashCoroutine = StartCoroutine(FlashExpGauge());  // 成長のための経験値に達したときに経験値ゲージを点滅させる
-                
-            }
         }
     }
 
@@ -271,20 +279,11 @@ public class PlayerMove : MonoBehaviour
         ExpGauge.value = (float)currentEXP / maxEXP;  // 経験値スライダーの値を更新
 
         StartCoroutine(TemporaryInvincibility());  // レベルアップ時に短時間の霸体を付与
-        if (expFlashCoroutine != null)
-        {
-            StopCoroutine(expFlashCoroutine);  // 経験値ゲージの点滅を停止
-            expFlashCoroutine = null;
-        }
+        Invoke("EnableColliderAfterLevelUp", 3f); // レベルアップ後にColliderを有効にする
 
         if (isBigDragon)
         {
             isExpLocked = false;  // 大龍になったら経験値ロックを解除
-            if (expFlashCoroutine != null)
-            {
-                StopCoroutine(expFlashCoroutine);  // 大龍になったら経験値ゲージの点滅を停止
-                expFlashCoroutine = null;
-            }
         }
     }
 
@@ -295,21 +294,29 @@ public class PlayerMove : MonoBehaviour
         isInvincible = false;
     }
 
-    IEnumerator FlashExpGauge()
+    IEnumerator FireLaser()
     {
-        while (true)
-        {
-            Expslider.SetActive(!Expslider.activeSelf); // 経験値ゲージを点滅させる
-            yield return new WaitForSeconds(0.5f);
-        }
-    }
-
-    void FireLaser()
-    {
-        GameObject go = GameObject.Instantiate(laserPrefab, laserSpawnPoint.position, laserSpawnPoint.rotation) as GameObject;
-        GameObject.Destroy(go, 3f);
+        // レーザー攻撃アニメーションを再生
+        animator.SetTrigger("FireLaser");
+        // 2秒待機
+        yield return new WaitForSeconds(1.3f);
+        GameObject laser = Instantiate(laserPrefab, laserSpawnPoint.position, laserSpawnPoint.rotation);
+        Destroy(laser, 3f);
 
         currentMP -= 1;
+        MpGauge.value = (float)currentMP / maxMP;  // MPスライダーの値を更新
+    }
+
+    IEnumerator FireFlame()
+    {
+        // 火炎攻撃アニメーションを再生
+        animator.SetTrigger("FireFlame");
+        // 2秒待機
+        yield return new WaitForSeconds(1.3f);
+        GameObject flame = Instantiate(flamePrefab, flameSpawnPoint.position, flameSpawnPoint.rotation);
+        Destroy(flame, 3f);
+
+        currentMP -= 2;  // 火炎攻撃の際に消費するMP
         MpGauge.value = (float)currentMP / maxMP;  // MPスライダーの値を更新
     }
 }
