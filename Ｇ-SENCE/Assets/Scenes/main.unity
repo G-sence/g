@@ -477,6 +477,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1195925839}
     - target: {fileID: 682390474077643677, guid: a1226e67ab5c7124295033615688f272, type: 3}
+      propertyPath: getsound
+      value: 
+      objectReference: {fileID: 8442557742926812097, guid: 873100623c9e6bc459d6d035b59c4804, type: 3}
+    - target: {fileID: 682390474077643677, guid: a1226e67ab5c7124295033615688f272, type: 3}
       propertyPath: Expslider
       value: 
       objectReference: {fileID: 303121185}
@@ -484,6 +488,10 @@ PrefabInstance:
       propertyPath: dashSpeed
       value: 10.7
       objectReference: {fileID: 0}
+    - target: {fileID: 682390474077643677, guid: a1226e67ab5c7124295033615688f272, type: 3}
+      propertyPath: getsound2
+      value: 
+      objectReference: {fileID: 9084070223388875709, guid: e66807cb69eaf274ba40ee3db8988b04, type: 3}
     - target: {fileID: 682390474077643677, guid: a1226e67ab5c7124295033615688f272, type: 3}
       propertyPath: hitpoint1
       value: 

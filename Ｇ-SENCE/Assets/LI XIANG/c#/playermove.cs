@@ -56,6 +56,10 @@ public class PlayerMove : MonoBehaviour
 
     private Coroutine expFlashCoroutine; // 経験値スライダーのフラッシュ用コルーチン
 
+    [SerializeField, Header("ダメージ")]
+    private GameObject getsound;
+    [SerializeField, Header("Lv.up")]
+    private GameObject getsound2;
     public AudioSource audioSource;
 
     void Start()
@@ -130,6 +134,7 @@ public class PlayerMove : MonoBehaviour
                 Debug.Log("壁に衝突しました。現在のHP: " + currentHP);
                 hasCollidedWithWall = true;
                 Invoke("ResetWallCollision", 1f);
+                Instantiate(getsound);
             }
             else if (isBigDragon)
             {
@@ -259,6 +264,8 @@ public class PlayerMove : MonoBehaviour
         currentMP = maxMP;
         currentEXP = 0;
         maxEXP += 500;
+
+        Instantiate(getsound2);
 
         MpGauge.value = (float)currentMP / maxMP;  // MPスライダーの値を更新
         ExpGauge.value = (float)currentEXP / maxEXP;  // 経験値スライダーの値を更新
