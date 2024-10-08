@@ -17,11 +17,10 @@ public class PlayerMove : MonoBehaviour
     public float minX, maxX, minY, maxY;   // BoxColliderが時々効かないためコードで移動範囲を制限する
     public float knockbackForce = 5f;  // 壁に衝突した際のノックバック力
 
-    public int maxHP = 5;  // 最大HP
-<<<<<<< HEAD
+// HEAD
     public int maxHP = 3;  // 最大HP
-=======
->>>>>>> parent of 0e42022b (敵の攻撃の調整)
+//
+// parent of 0e42022b (敵の攻撃の調整)
     public int maxMP = 10;  // 最大MP
     public int currentHP;  // 現在のHP
     public int currentMP;  // 現在のMP
@@ -57,6 +56,8 @@ public class PlayerMove : MonoBehaviour
 
     private Coroutine expFlashCoroutine; // 経験値スライダーのフラッシュ用コルーチン
 
+    public AudioSource audioSource;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();  // Rigidbodyコンポーネントを取得
@@ -71,6 +72,8 @@ public class PlayerMove : MonoBehaviour
         ExpGauge = Expslider.GetComponent<Slider>();    // Sliderコンポーネントを取得
         ExpGauge.maxValue = 1;
         ExpGauge.value = (float)currentEXP / maxEXP;
+
+        audioSource.Play();
     }
 
     void Update()
@@ -92,6 +95,11 @@ public class PlayerMove : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.J) && currentMP > 0)  // Jキーでレーザー攻撃（キーを押した瞬間だけ）
         {
             FireLaser();
+        }
+
+        if (isBigDragon)
+        {
+            audioSource.Stop();
         }
 
         UpdateHitPoints();  // ヒットポイントUIの更新
@@ -236,6 +244,7 @@ public class PlayerMove : MonoBehaviour
             {
                 isExpLocked = true;  // 経験値をロック
                 expFlashCoroutine = StartCoroutine(FlashExpGauge());  // 成長のための経験値に達したときに経験値ゲージを点滅させる
+                
             }
         }
     }

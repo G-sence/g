@@ -20,6 +20,10 @@ public class DragonGrowth : MonoBehaviour
     public float expGrowthRate = 0.1f; // 小龍の時の経験値の成長率
     public float newMinX, newMaxX, newMinY, newMaxY; // 成長後の新しい活動範囲
 
+    public AudioClip[] sounds;
+    public AudioSource audioSource;
+
+
     void Start()
     {
         smallDragon.SetActive(true); // 初期化として小龍を有効にする
@@ -51,6 +55,9 @@ public class DragonGrowth : MonoBehaviour
 
     System.Collections.IEnumerator GrowToBigDragonSequence()
     {
+
+        audioSource.Play();
+
         // 小龍を非表示にする
         smallDragon.SetActive(false);
 
