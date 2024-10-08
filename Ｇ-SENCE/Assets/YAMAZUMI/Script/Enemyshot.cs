@@ -12,7 +12,7 @@ public class Enemyshot : MonoBehaviour
     {
         count += 1;
 
-        if (count % 100 == 0)
+        if (count % 200 == 0)
         {
             // 弾を発射する
             GameObject shell = Instantiate(shellPrefab, transform.position, Quaternion.identity);
