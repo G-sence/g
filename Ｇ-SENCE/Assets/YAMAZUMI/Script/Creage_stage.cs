@@ -1,8 +1,10 @@
+﻿//カメラやステージ変更より背景の大きさを変更する方が手間が省けるため、そうする。
+//前はステージを操作するコードを書いたから余ったコードが出てくる、気にしないでください。
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-// stage���`�ɤ����m���g��
+// stageコードを最適化化済み
 public enum Stage
 {
     Normal,
@@ -16,27 +18,29 @@ public enum Stage
 
 public class CreateStage : MonoBehaviour
 {
-    public Vector3 spawnOffset = new Vector3(0f, 6f, 0f);  // �¤������Ʃ`����ƫ����
+    public Vector3 spawnOffset = new Vector3(0f, 6f, 0f);  // 新しいステージの偏移量
     private GameObject currentStage;
     private GameObject previousStage;
 
     public GameObject stagePrefab;
     public List<GameObject> stages;
-    public Transform spawnPoint; //���Ʃ`����λ
+    public Transform spawnPoint; //ステージ定位
 
     private Stage currentStageState = Stage.Normal;
+    public bool isBigDragon = false; // 龍が成長したかどうかのフラグ
 
     void Start()
     {
-        //���ڻ�
+        // 初期化
         previousStage = Instantiate(stagePrefab, new Vector3(0f, 5.5f, 0), Quaternion.identity);
         currentStage = previousStage;
 
-        InvokeRepeating("GenerateNewStage", 0f, 3f); // ���ɕr�g��ʼ�ޤ�E�g����
+        InvokeRepeating("GenerateNewStage", 0f, 3f); // 生成時間（始まる時間と間隔）
     }
 
     void Update()
-    {//���Ʃ`���ƁE
+    {
+        // ステージ移動
         if (currentStage != null)
         {
             currentStage.transform.Translate(-0.01f, 0, 0);
@@ -46,26 +50,47 @@ public class CreateStage : MonoBehaviour
             previousStage.transform.Translate(-0.01f, 0, 0);
         }
     }
-    //���Ʃ`�����ɥ᥽�å�
+
+    // ステージ生成メソッド
     void GenerateNewStage()
     {
-        int randomStageIndex = Random.Range(1, stages.Count);
-        currentStageState = (Stage)randomStageIndex;
+        List<GameObject> availableStages = new List<GameObject>();
+
+        // ステージ選択のロジック
+        if (isBigDragon)
+        {
+            // 大きなドラゴンの場合、ステージ4以上を選択
+            availableStages = stages.GetRange(0, stages.Count ); // ステージ4以上から選択
+        }
+        else
+        {
+            // 小さなドラゴンの場合、ステージ1-3を選択
+            availableStages = stages.GetRange(0, stages.Count); // ステージ1-3を選択
+        }
+
+        // ランダムにステージを選択
+        int randomStageIndex = Random.Range(0, availableStages.Count);
+        GameObject newStage = availableStages[randomStageIndex];
 
         Vector3 newPosition = spawnPoint.position + spawnOffset;
 
         previousStage = currentStage;
-        currentStage = Instantiate(stages[(int)currentStageState - 1], newPosition, Quaternion.identity);
+        currentStage = Instantiate(newStage, newPosition, Quaternion.identity);
 
-        StartCoroutine(DestroyPreviousStageAfterDelay());//�ɥ��Ʃ`�����W�Ӥ����Ɖ�
+        StartCoroutine(DestroyPreviousStageAfterDelay()); // 旧ステージを遅延して破壊
     }
 
     IEnumerator DestroyPreviousStageAfterDelay()
     {
-        yield return new WaitForSeconds(1000f);
+        yield return new WaitForSeconds(20f);
         if (previousStage != null)
         {
             Destroy(previousStage);
         }
+    }
+
+    public void SetBigDragonStage()
+    {
+        isBigDragon = true; // 龍が成長した後に呼び出して、ステージを更新する
     }
 }

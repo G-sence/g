@@ -1,141 +1,147 @@
+﻿// UTF-8に修正
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-//wasd���ƁE��shift�ǥ��å��塢Mp�����M��С����������ʹ���ʤ�
+
+// WASDで移動、Shiftでダッシュ、MPを消費し小さい頃しか使えない
 public class PlayerMove : MonoBehaviour
 {
-    public float moveSpeed = 10f;
-    public float dashSpeed = 20f;
-    public float dashDuration = 0.2f;
-    public int dashCost = 1;
-    public int cooltime = 1;
-    public float minX, maxX, minY, maxY;  // boxcollider���r���E���ʤ����ᥳ�`�ɤ��ƶ���Χ�����ޤ���E
+    public DragonGrowth dragonGrowth;
+    public int WallDamage = 1;  // 壁に衝突した際のダメージ量
+    public float moveSpeed = 10f;  // 通常の移動速度
+    public float dashSpeed = 20f;  // ダッシュ時の速度
+    public float dashDuration = 0.2f;  // ダッシュの継続時間
+    public int dashCost = 1;  // ダッシュの際に消費するMP
+    public int cooltime = 1;  // クールタイム
+    public float minX, maxX, minY, maxY;   // BoxColliderが時々効かないためコードで移動範囲を制限する
+    public float knockbackForce = 5f;  // 壁に衝突した際のノックバック力
 
-    public int maxHP = 5;
-    public int maxMP = 10;
-    public int currentHP;
-    public int currentMP;
-    public int currentEXP;
-    public int level = 1;
+    public int maxHP = 5;  // 最大HP
+    public int maxMP = 10;  // 最大MP
+    public int currentHP;  // 現在のHP
+    public int currentMP;  // 現在のMP
+    public int currentEXP;  // 現在の経験値
+    public int level = 1;  // 現在のレベル
+    public int maxEXP = 1000; // 初期の最大経験値
+    public int attackPower = 10;  // 攻撃力
 
-    private Rigidbody rb;
-    private bool isDashing = false;
-    public bool canDash = true;
-    public float dashCooldown = 1f;
-    private Vector3 dashDirection;
+    private Rigidbody rb;  // Rigidbodyの参照
+    private bool isDashing = false;  // 現在ダッシュしているかどうかのフラグ
+    public bool canDash = true;  // ダッシュが可能かどうか
+    public float dashCooldown = 1f;  // ダッシュのクールダウン時間
+    private Vector3 dashDirection;  // ダッシュの方向
+    private bool hasCollidedWithWall = false;  // 壁に衝突済みかどうか
+    public bool isBigDragon = false;
+    public bool isInvincible = false;  // 霸体状態のフラグ
+    public bool isExpLocked = false;  // 経験値がロックされているかどうかのフラグ
 
-    public GameObject hitpoint1;
-    public GameObject hitpoint2;
-    public GameObject hitpoint3;
-    public GameObject hitpoint4;
-    public GameObject hitpoint5;
+    public GameObject hitpoint1;  // ヒットポイントのUIオブジェクト
+    public GameObject hitpoint2;  // ヒットポイントのUIオブジェクト
+    public GameObject hitpoint3;  // ヒットポイントのUIオブジェクト
+    public GameObject hitpoint4;  // ヒットポイントのUIオブジェクト
+    public GameObject hitpoint5;  // ヒットポイントのUIオブジェクト
 
-    public GameObject Expslider;    //�̗̓Q�[�W�I�u�W�F�N�g���i�[����ϐ�
-    public GameObject Mpslider;    //�̗̓Q�[�W�I�u�W�F�N�g���i�[����ϐ�
+    public GameObject Expslider;    // 経験値スライダー
+    public GameObject Mpslider;    // MPスライダー
 
+    public GameObject laserPrefab;  // レーザー攻撃のプレハブ
+    public Transform laserSpawnPoint;  // レーザーの発射位置
 
-    Slider MpGauge;                             //�@UI��Slider�^�ϐ��@hpGauge��p�ӂ��܂�
-    Slider ExpGauge;                             //�@UI��Slider�^�ϐ��@hpGauge��p�ӂ��܂�
+    Slider MpGauge; // UIのスライダー
+    Slider ExpGauge; // UIのスライダー
+
+    private Coroutine expFlashCoroutine; // 経験値スライダーのフラッシュ用コルーチン
 
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
-        currentHP = 5;
-        currentMP = maxMP;
-        currentEXP = 0;
+        rb = GetComponent<Rigidbody>();  // Rigidbodyコンポーネントを取得
+        currentHP = maxHP;  // HPを最大に設定
+        currentMP = maxMP;  // MPを最大に設定
+        currentEXP = 0;  // 初期経験値を0に設定
 
-        MpGauge = Mpslider.GetComponent<Slider>();    //Slider����荞�݂܂�
-        MpGauge.minValue = currentMP;       
-        
-        ExpGauge = Expslider.GetComponent<Slider>();    //Slider����荞�݂܂�
-        ExpGauge.minValue = currentEXP;                             //�̗̓Q�[�W�̍ő�l��Slider�̍ő�l�ɂ��܂�
+        MpGauge = Mpslider.GetComponent<Slider>();    // Sliderコンポーネントを取得
+        MpGauge.maxValue = 1;
+        MpGauge.value = (float)currentMP / maxMP;
 
+        ExpGauge = Expslider.GetComponent<Slider>();    // Sliderコンポーネントを取得
+        ExpGauge.maxValue = 1;
+        ExpGauge.value = (float)currentEXP / maxEXP;
     }
 
     void Update()
     {
-        currentEXP += 1;//һ��1�ˤ���E
-        if (!isDashing)
+        MpGauge.value = (float)currentMP / maxMP;  // MPスライダーの値を更新
+        ExpGauge.value = (float)currentEXP / maxEXP;  // 経験値スライダーの値を更新
+
+        if (!isDashing)  // ダッシュ中でない場合のみ移動可能
         {
             Move();
         }
 
-        if (Input.GetKeyDown(KeyCode.LeftShift) && currentMP >= dashCost && canDash)//���å�������
+        if (Input.GetKeyDown(KeyCode.LeftShift) && currentMP >= dashCost && canDash)  // ダッシュ条件
         {
             StartDash();
+            UseMana(dashCost);
         }
 
-        if (currentHP == 5)
+        if (Input.GetKeyDown(KeyCode.J) && currentMP > 0)  // Jキーでレーザー攻撃（キーを押した瞬間だけ）
         {
-            hitpoint1.SetActive(true);
-            hitpoint2.SetActive(true);
-            hitpoint3.SetActive(true);
-            hitpoint4.SetActive(true);
-            hitpoint5.SetActive(true);
+            FireLaser();
         }
-        if (currentHP == 4)
-        {
-            hitpoint1.SetActive(true);
-            hitpoint2.SetActive(true);
-            hitpoint3.SetActive(true);
-            hitpoint4.SetActive(true);
-            hitpoint5.SetActive(false);
-        }
-        if (currentHP == 3)
-        {
-            hitpoint1.SetActive(true);
-            hitpoint2.SetActive(true);
-            hitpoint3.SetActive(true);
-            hitpoint4.SetActive(false);
-            hitpoint5.SetActive(false);
-        }
-        if (currentHP == 2)
-        {
-            hitpoint1.SetActive(true);
-            hitpoint2.SetActive(true);
-            hitpoint3.SetActive(false);
-            hitpoint4.SetActive(false);
-            hitpoint5.SetActive(false);
-        }
-        if (currentHP == 1)
-        {
-            hitpoint1.SetActive(true);
-            hitpoint2.SetActive(false);
-            hitpoint3.SetActive(false);
-            hitpoint4.SetActive(false);
-            hitpoint5.SetActive(false);
-        }
+
+        UpdateHitPoints();  // ヒットポイントUIの更新
+    }
+
+    void UpdateHitPoints()
+    {
+        hitpoint1.SetActive(currentHP >= 1);  // ヒットポイントが1以上なら表示
+        hitpoint2.SetActive(currentHP >= 2);  // ヒットポイントが2以上なら表示
+        hitpoint3.SetActive(currentHP >= 3);  // ヒットポイントが3以上なら表示
+        hitpoint4.SetActive(currentHP >= 4);  // ヒットポイントが4以上なら表示
+        hitpoint5.SetActive(currentHP >= 5);  // ヒットポイントが5以上なら表示
+
         if (currentHP == 0)
         {
-            hitpoint1.SetActive(false);
-            hitpoint2.SetActive(false);
-            hitpoint3.SetActive(false);
-            hitpoint4.SetActive(false);
-            hitpoint5.SetActive(false);
+            Time.timeScale = 0f; // 死亡処理
         }
-
     }
 
     void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.tag =="wall")
+        if (collision.gameObject.CompareTag("wall") && !hasCollidedWithWall)  // 壁に初めて衝突したときのみダメージを受ける
         {
-            currentHP = currentHP - 1;
+            if (!isBigDragon && !isInvincible) // 小さなドラゴンで且つ霸体状態でない場合のみダメージを受ける
+            {
+                TakeDamage(WallDamage);
+                Knockback(collision.contacts[0].normal);
+                Debug.Log("壁に衝突しました。現在のHP: " + currentHP);
+                hasCollidedWithWall = true;
+                Invoke("ResetWallCollision", 1f);
+            }
+            else if (isBigDragon)
+            {
+                Destroy(collision.gameObject); // 大きなドラゴンの場合、壁を破壊する
+            }
         }
-        if (collision.gameObject.tag == "Enemy")
-        {
-            currentHP = currentHP - 1;
-            Destroy(collision.gameObject);
-        }
+    }
 
+    void Knockback(Vector3 collisionNormal)
+    {
+        Vector3 knockbackDirection = -collisionNormal * knockbackForce;
+        rb.AddForce(knockbackDirection, ForceMode.Impulse);
+    }
+
+    void ResetWallCollision()
+    {
+        hasCollidedWithWall = false;
     }
 
     void Move()
     {
         float moveX = 0f;
         float moveY = 0f;
-        
+
         if (Input.GetKey(KeyCode.W))
         {
             moveY = 1f;
@@ -157,12 +163,7 @@ public class PlayerMove : MonoBehaviour
         Vector3 movement = new Vector3(moveX, moveY, 0f) * moveSpeed;
         rb.velocity = movement;
 
-        // �ƶ���Χ����                                           
-        //if (transform.position.x < minX) transform.position = new Vector3(minX, transform.position.y, transform.position.z);
-        //if (transform.position.x > maxX) transform.position = new Vector3(maxX, transform.position.y, transform.position.z);
-        //if (transform.position.y < minY) transform.position = new Vector3(transform.position.x, minY, transform.position.z);
-        //if (transform.position.y > maxY) transform.position = new Vector3(transform.position.x, maxY, transform.position.z);
-        //transform.position = clampedPosition;
+        // 移動範囲制限
         Vector3 clampedPosition = new Vector3(
             Mathf.Clamp(transform.position.x, minX, maxX),
             Mathf.Clamp(transform.position.y, minY, maxY),
@@ -179,8 +180,8 @@ public class PlayerMove : MonoBehaviour
             dashDirection = rb.velocity.normalized;
             rb.velocity = dashDirection * dashSpeed;
             currentMP -= dashCost;
-            Invoke("EndDash", dashDuration);//���å���r�g���W�ӄI��Hv��
-            Invoke("ResetDashCooldown", dashCooldown);//���`��E�����E
+            Invoke("EndDash", dashDuration);
+            Invoke("ResetDashCooldown", dashCooldown);
         }
     }
 
@@ -193,13 +194,18 @@ public class PlayerMove : MonoBehaviour
     {
         canDash = true;
     }
-    ///���L���v
+
+    /// 戦闘関連
     public void TakeDamage(int damage)
     {
-        currentHP -= damage;
-        if (currentHP <= 0)
+        if (!isInvincible)
         {
-            currentHP = 0;
+            currentHP -= damage;
+            if (currentHP <= 0)
+            {
+                currentHP = 0;
+                Time.timeScale = 0f;
+            }
         }
     }
 
@@ -210,25 +216,80 @@ public class PlayerMove : MonoBehaviour
         {
             currentMP = 0;
         }
+        MpGauge.value = (float)currentMP / maxMP;  // MPスライダーの値を更新
     }
 
     public void GainEXP(int exp)
     {
-        currentEXP += exp;
-        if (currentEXP >= 100)
+        if (!isExpLocked)  // 経験値がロックされている場合、経験値を増加させない
         {
-            LevelUp();
-            currentEXP = 0;
+            currentEXP += exp;
+            if (currentEXP >= maxEXP)
+            {
+                LevelUp();
+            }
+            else if (currentEXP >= dragonGrowth.growthThreshold && !isBigDragon && expFlashCoroutine == null)
+            {
+                isExpLocked = true;  // 経験値をロック
+                expFlashCoroutine = StartCoroutine(FlashExpGauge());  // 成長のための経験値に達したときに経験値ゲージを点滅させる
+            }
         }
     }
 
     void LevelUp()
     {
         level++;
-        maxHP =5;
+        maxHP += 5;
         maxMP += 10;
+        attackPower += 5;  // 攻撃力を増加
         currentHP = maxHP;
         currentMP = maxMP;
+        currentEXP = 0;
+        maxEXP += 500;
+
+        MpGauge.value = (float)currentMP / maxMP;  // MPスライダーの値を更新
+        ExpGauge.value = (float)currentEXP / maxEXP;  // 経験値スライダーの値を更新
+
+        StartCoroutine(TemporaryInvincibility());  // レベルアップ時に短時間の霸体を付与
+        if (expFlashCoroutine != null)
+        {
+            StopCoroutine(expFlashCoroutine);  // 経験値ゲージの点滅を停止
+            expFlashCoroutine = null;
+        }
+
+        if (isBigDragon)
+        {
+            isExpLocked = false;  // 大龍になったら経験値ロックを解除
+            if (expFlashCoroutine != null)
+            {
+                StopCoroutine(expFlashCoroutine);  // 大龍になったら経験値ゲージの点滅を停止
+                expFlashCoroutine = null;
+            }
+        }
+    }
+
+    IEnumerator TemporaryInvincibility()
+    {
+        isInvincible = true;
+        yield return new WaitForSeconds(3f);  // 3秒間の霸体状態
+        isInvincible = false;
+    }
+
+    IEnumerator FlashExpGauge()
+    {
+        while (true)
+        {
+            Expslider.SetActive(!Expslider.activeSelf); // 経験値ゲージを点滅させる
+            yield return new WaitForSeconds(0.5f);
+        }
+    }
+
+    void FireLaser()
+    {
+        GameObject go = GameObject.Instantiate(laserPrefab, laserSpawnPoint.position, laserSpawnPoint.rotation) as GameObject;
+        GameObject.Destroy(go, 3f);
+
+        currentMP -= 1;
+        MpGauge.value = (float)currentMP / maxMP;  // MPスライダーの値を更新
     }
 }
-
