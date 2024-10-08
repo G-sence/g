@@ -1,0 +1,10 @@
+diff a/g2/Assets/LI XIANG/c#/playermove.cs b/g2/Assets/LI XIANG/c#/playermove.cs	(rejected hunks)
+@@ -17,7 +17,7 @@
+     public float minX, maxX, minY, maxY;   // BoxColliderが時々効かないためコードで移動範囲を制限する
+     public float knockbackForce = 5f;  // 壁に衝突した際のノックバック力
+ 
+-    public int maxHP = 5;  // 最大HP
++    public int maxHP = 3;  // 最大HP
+     public int maxMP = 10;  // 最大MP
+     public int currentHP;  // 現在のHP
+     public int currentMP;  // 現在のMP

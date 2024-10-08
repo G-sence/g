@@ -18,6 +18,10 @@ public class PlayerMove : MonoBehaviour
     public float knockbackForce = 5f;  // 壁に衝突した際のノックバック力
 
     public int maxHP = 5;  // 最大HP
+<<<<<<< HEAD
+    public int maxHP = 3;  // 最大HP
+=======
+>>>>>>> parent of 0e42022b (敵の攻撃の調整)
     public int maxMP = 10;  // 最大MP
     public int currentHP;  // 現在のHP
     public int currentMP;  // 現在のMP
