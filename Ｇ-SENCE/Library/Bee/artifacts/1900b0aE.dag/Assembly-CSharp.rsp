@@ -341,6 +341,7 @@
 "Assets/LI XIANG/c#/DestroyEverything.cs"
 "Assets/LI XIANG/c#/DragonGrowth.cs"
 "Assets/LI XIANG/c#/Enemy.cs"
+"Assets/LI XIANG/c#/EnemySpawner.cs"
 "Assets/LI XIANG/c#/playControl.cs"
 "Assets/LI XIANG/c#/playermove.cs"
 "Assets/LI XIANG/c#/Projectile.cs"

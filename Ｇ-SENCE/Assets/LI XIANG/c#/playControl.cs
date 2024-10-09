@@ -5,6 +5,11 @@ using TMPro; // TextMeshPro   UI
 
 public class PlayControl : MonoBehaviour
 {
+    public DragonGrowth dragonGrowth;
+    public EnemySpawner enemySpawner;
+    public EnemyShot enemyShot;
+    public PlayerMove playerMove;
+
     public GameObject bg1; // BG1の背景
     public GameObject bg2; // BG2の背景
     public GameObject bg3; // BG3の背景
@@ -35,6 +40,16 @@ public class PlayControl : MonoBehaviour
         // 分と秒を計算
         int minutes = (int)(timer / 60);
         int seconds = (int)(timer % 60);
+        ////敵の生成管理////
+        if (dragonGrowth != null && dragonGrowth.isBigDragon)
+        {
+            enemySpawner.enabled = true;
+        }
+        else
+        {
+            enemySpawner.enabled = false;
+        }
+        //////
 
         // 画面上の時間表示を更新
         timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);/////////UIトラブル、修正予定
@@ -53,6 +68,11 @@ public class PlayControl : MonoBehaviour
 
             // レベルを切り替える
             ChangeLevel(currentLevel);
+            // 敵の発射速度を爆発的に増加させる
+            if (enemyShot != null)
+            {
+                enemyShot.IncreaseFireFrequency();
+            }
         }
     }
 

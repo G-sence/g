@@ -1,77 +1,84 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public int maxHP = 50;  // 敵の最大HP
-    public int currentHP;  // 現在のHP
-    public float moveSpeed = 3f;  // 敵の移動速度
-    public float attackRange = 10f;  // 攻撃範囲
-    public int attackPower = 10;  // 攻撃力
-    public float attackCooldown = 2f;  // 攻撃のクールダウン時間
+    // 敵の最大HP
+    public int maxHP = 10;
+    // 現在のHP
+    private int currentHP;
+    // プレイヤーのTransform
+    private Transform playerTransform;
+    // 敵の移動速度
+    public float moveSpeed = 3f;
+    // 弾道移動の高さ
+    public float arcHeight = 5f;
 
-    public GameObject projectilePrefab;  // 発射する弾丸のプレハブ
-    public Transform firePoint;  // 弾丸の発射位置
-    public float projectileSpeed = 5f;  // 弾丸の速度
-
-    private GameObject player;  // プレイヤーオブジェクトの参照
-    private bool canAttack = true;  // 攻撃可能かどうかのフラグ
+    private Vector3 startPoint;
+    private Vector3 targetPosition;
+    private float timeElapsed;
+    private float travelTime;
 
     void Start()
     {
-        currentHP = maxHP;
-        player = GameObject.FindGameObjectWithTag("Player");
+        currentHP = maxHP; // HPを初期化
+        playerTransform = GameObject.FindGameObjectWithTag("Player").transform; // プレイヤーの位置を取得
+        startPoint = transform.position;
+        if (playerTransform != null)
+        {
+            targetPosition = playerTransform.position + new Vector3(2, -1, 0); // 初期位置でプレイヤーの位置を一度だけ取得
+        }
+        travelTime = Vector3.Distance(startPoint, targetPosition) / moveSpeed;
+        timeElapsed = 0f;
     }
 
     void Update()
     {
-        if (player != null)
+        if (targetPosition != null)
         {
-            MoveTowardsPlayer();
-            if (Vector3.Distance(transform.position, player.transform.position) <= attackRange && canAttack)
-            {
-                StartCoroutine(FireProjectile());
-            }
+            // 経過時間を更新
+            timeElapsed += Time.deltaTime;
+            float progress = timeElapsed / travelTime;
+            if (progress > 1f) progress = 1f;
+
+            // プレイヤーに向かう弾道移動
+            Vector3 nextPosition = Vector3.Lerp(startPoint, targetPosition, progress);
+            nextPosition.y += Mathf.Sin(progress * Mathf.PI) * arcHeight;
+
+            transform.position = nextPosition;
+
+            // プレイヤーの方向に向けて回転
+            Quaternion lookRotation = Quaternion.LookRotation(targetPosition - transform.position);
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
         }
     }
 
-    void MoveTowardsPlayer()
-    {
-        if (Vector3.Distance(transform.position, player.transform.position) > attackRange)
-        {
-            Vector3 direction = (player.transform.position - transform.position).normalized;
-            transform.position += direction * moveSpeed * Time.deltaTime;
-        }
-    }
-
-    IEnumerator FireProjectile()
-    {
-        canAttack = false;
-        // 弾丸を生成し、プレイヤーに向かって追尾させる
-        GameObject projectile = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
-        Projectile projectileScript = projectile.GetComponent<Projectile>();
-        if (projectileScript != null)
-        {
-            projectileScript.SetTarget(player, projectileSpeed);
-        }
-        yield return new WaitForSeconds(attackCooldown);
-        canAttack = true;
-    }
-
+    // ダメージを受けるメソッド
     public void TakeDamage(int damage)
     {
         currentHP -= damage;
         if (currentHP <= 0)
         {
-            Die();
+            Die(); // HPが0以下になった場合は死亡
         }
     }
 
+    // 死亡時の処理
     void Die()
     {
-        Debug.Log("敵が倒されました");
-        // 死亡アニメーションを再生する場合、ここでトリガーする
-        Destroy(gameObject);
+        if (ScoreManager.Instance != null)
+        {
+            ScoreManager.Instance.AddScore(100); // 敵を倒したら100点加算
+        }
+        Destroy(gameObject); // 敵オブジェクトを破壊
+    }
+
+    // 火焰やレーザーと触れたときにダメージを受ける
+    void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log("Collision detected with: " + collision.gameObject.name);
+        if (collision.gameObject.CompareTag("Laser") || collision.gameObject.CompareTag("Fire"))
+        {
+            TakeDamage(10); // 火焰またはレーザーに当たったら1ダメージ
+        }
     }
 }

@@ -34,4 +34,8 @@ public class Enemyshot : MonoBehaviour
             Debug.Log("Player hit");
         }
     }
+    public void IncreaseFireFrequency()
+    {
+        fireInterval = Mathf.Max(0.2f, fireInterval / 2); // 発射間隔を半分にし、最低でも0.1秒に制限
+    }
 }

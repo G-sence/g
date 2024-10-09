@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class DragonGrowth : MonoBehaviour
 {
@@ -20,9 +22,7 @@ public class DragonGrowth : MonoBehaviour
     public float expGrowthRate = 0.1f; // 小龍の時の経験値の成長率
     public float newMinX, newMaxX, newMinY, newMaxY; // 成長後の新しい活動範囲
 
-    public AudioClip[] sounds;
-    public AudioSource audioSource;
-
+    public EnemyShot enemyShot;
 
     void Start()
     {
@@ -40,24 +40,26 @@ public class DragonGrowth : MonoBehaviour
 
         if (playerMove.currentEXP >= growthThreshold && Input.GetKeyDown(KeyCode.Space) && !isBigDragon)
         {
-            StartCoroutine(GrowToBigDragonSequence()); // 成長のシーケンスを開始する
             isBigDragon = true;
+            playerMove.currentHP = playerMove.maxHP;
+            StartCoroutine(GrowToBigDragonSequence()); // 成長のシーケンスを開始する
         }
 
-        if (playerMove.currentEXP >= playerMove.maxEXP && !isBigDragon)
+        if (!isBigDragon && playerMove.currentEXP >= growthThreshold)
         {
             if (expFlashCoroutine == null)
             {
                 expFlashCoroutine = StartCoroutine(FlashExpGauge()); // 経験値ゲージを点滅させる
             }
         }
+        else if (isBigDragon && expFlashCoroutine != null)
+        {
+            StopExpFlash(); // 大龍になったら経験値ゲージの点滅を停止する
+        }
     }
 
     System.Collections.IEnumerator GrowToBigDragonSequence()
     {
-
-        audioSource.Play();
-
         // 小龍を非表示にする
         smallDragon.SetActive(false);
 
@@ -69,19 +71,27 @@ public class DragonGrowth : MonoBehaviour
         // 大龍に切り替える
         bigDragon.SetActive(true);
         smallDragonCollider.enabled = false;
-        bigDragonCollider.enabled = true;
+
+        yield return new WaitForSeconds(0.1f); // 当たり判定修正
+        bigDragonCollider.enabled = true; // 大龍のコライダーを有効
+        StartCoroutine(EnableFlameFor3Seconds());
+
+        enemyShot.fireInterval = 0.5f; // 難易度上昇
 
         // プレイヤーの状態を更新する
         StartCoroutine(GrowCamera()); // カメラを拡大する
         playerMove.canDash = false;
         playerMove.maxEXP += 500; // レベルアップ時に最大経験値を増加させる
         playerMove.currentEXP = 0; // 経験値をリセットする
-        playerMove.maxHP += 50;  // 大幅にHPを増加
-        playerMove.maxMP += 50;  // 大幅にMPを増加
+        playerMove.maxHP += 10;  // 大幅にHPを増加
+        playerMove.maxMP += 5;  // 大幅にMPを増加
         playerMove.attackPower += 20;  // 攻撃力を大幅に増加
         playerMove.currentHP = playerMove.maxHP;
         playerMove.currentMP = playerMove.maxMP;
         playerMove.moveSpeed = playerMove.moveSpeed; // 移動速度を設定する
+        playerMove.canUseLaser = true; // 大龍になったらレーザー使用可能
+        playerMove.canUseFire = true; // 大龍になったら火焰使用可能
+
         // プレイヤーの活動範囲を更新する
         playerMove.minX = newMinX;
         playerMove.maxX = newMaxX;
@@ -90,13 +100,6 @@ public class DragonGrowth : MonoBehaviour
 
         createStage.isBigDragon = true;
         playerMove.isBigDragon = true;
-        isBigDragon = true;
-
-        if (expFlashCoroutine != null)
-        {
-            StopCoroutine(expFlashCoroutine); // 経験値ゲージの点滅を停止する
-            expFlashCoroutine = null;
-        }
     }
 
     System.Collections.IEnumerator GrowCamera()
@@ -140,5 +143,26 @@ public class DragonGrowth : MonoBehaviour
         }
 
         background.transform.localScale = targetScale; // 最終的なスケールを設定する
+    }
+
+    void StopExpFlash()
+    {
+        if (expFlashCoroutine != null)
+        {
+            StopCoroutine(expFlashCoroutine);  // 経験値ゲージの点滅を停止
+            expFlashCoroutine = null;
+        }
+        playerMove.Expslider.SetActive(true); // 経験値ゲージを有効にする
+    }
+
+    IEnumerator EnableFlameFor3Seconds()
+    {
+        float elapsedTime = 0f;
+        while (elapsedTime < 3f)
+        {
+            playerMove.StartCoroutine(playerMove.FireFlame());
+            yield return new WaitForSeconds(1f); 
+            elapsedTime += 1f;
+        }
     }
 }

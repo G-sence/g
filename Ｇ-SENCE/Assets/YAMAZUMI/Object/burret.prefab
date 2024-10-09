@@ -13,9 +13,10 @@ GameObject:
   - component: {fileID: 3146933851219950976}
   - component: {fileID: 8536274790948880021}
   - component: {fileID: 3565381116669549934}
+  - component: {fileID: 1024579236021634944}
   m_Layer: 0
   m_Name: burret
-  m_TagString: Enemy
+  m_TagString: ammo
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -133,3 +134,17 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 120
   m_CollisionDetection: 0
+--- !u!114 &1024579236021634944
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1250467526133571931}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d283be76119c8c142bef113ed138aac4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 6
+  damage: 1

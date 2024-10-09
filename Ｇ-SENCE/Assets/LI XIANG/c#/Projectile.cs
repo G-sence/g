@@ -1,37 +1,61 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    private GameObject target;
-    private float speed;
+    // 弾丸の速度（Inspectorで編集可能）
+    public float speed = 1f;
+    // プレイヤーに当たった場合のダメージ
+    public int damage = 1;
+    // 追尾対象
+    private Transform target;
+    private Vector3 direction;
 
-    public void SetTarget(GameObject target, float speed)
-    {
-        this.target = target;
-        this.speed = speed;
-    }
-
-    void Update()
+    void Start()
     {
         if (target != null)
         {
-            Vector3 direction = (target.transform.position - transform.position).normalized;
-            transform.position += direction * speed * Time.deltaTime;
-        }
-        else
-        {
-            Destroy(gameObject); // ターゲットが存在しない場合は弾丸を破棄する
+            direction = (target.position - transform.position).normalized; // 発射時に一度だけプレイヤーの方向を計算
         }
     }
-
-    private void OnTriggerEnter(Collider other)
+    void Update()
     {
-        if (other.CompareTag("Player"))
+        transform.Translate(direction * speed * Time.deltaTime, Space.World);
+    }
+    //void Update()
+    //{
+        // ターゲットが設定されている場合、ターゲットの方向に移動
+      //  if (target != null)
+    //    {
+    //        Vector3 direction = (target.position - transform.position).normalized;
+    //        transform.Translate(direction * speed * Time.deltaTime, Space.World);
+    //    }
+ //   }
+
+    // ターゲットを設定するメソッド
+    public void SetTarget(Transform targetTransform)
+    {
+        target = targetTransform;
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        // プレイヤーに当たった場合
+        if (collision.gameObject.CompareTag("Player"))
         {
-            other.GetComponent<PlayerMove>().TakeDamage(10);  // プレイヤーにダメージを与える
-            Destroy(gameObject);  // 弾丸を破棄する
+            // プレイヤーにダメージを与える
+            PlayerMove player = collision.gameObject.GetComponent<PlayerMove>();
+            if (player != null)
+            {
+                player.TakeDamage(damage); // プレイヤーのTakeDamageメソッドを呼び出し
+            }
+            // 弾丸を破壊
+            Destroy(gameObject);
+        }
+        // プレイヤー以外に当たった場合
+        else if (!collision.gameObject.CompareTag("Enemy")) // 敵以外に衝突した場合のみ破壊
+        {
+            // 弾丸を破壊
+            Destroy(gameObject);
         }
     }
 }
