@@ -7,10 +7,6 @@ TagManager:
   - wall
   - sencer
   - levelObjects
-  - Enemy
-  - Fire
-  - Laser
-  - ammo
   layers:
   - Default
   - TransparentFX

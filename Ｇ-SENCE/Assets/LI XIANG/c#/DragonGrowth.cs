@@ -20,6 +20,10 @@ public class DragonGrowth : MonoBehaviour
     public float expGrowthRate = 0.1f; // 小龍の時の経験値の成長率
     public float newMinX, newMaxX, newMinY, newMaxY; // 成長後の新しい活動範囲
 
+    public AudioClip[] sounds;
+    public AudioSource audioSource;
+
+
     void Start()
     {
         smallDragon.SetActive(true); // 初期化として小龍を有効にする
@@ -40,21 +44,20 @@ public class DragonGrowth : MonoBehaviour
             isBigDragon = true;
         }
 
-        if (!isBigDragon && playerMove.currentEXP >= growthThreshold)
+        if (playerMove.currentEXP >= playerMove.maxEXP && !isBigDragon)
         {
             if (expFlashCoroutine == null)
             {
                 expFlashCoroutine = StartCoroutine(FlashExpGauge()); // 経験値ゲージを点滅させる
             }
         }
-        else if (isBigDragon && expFlashCoroutine != null)
-        {
-            StopExpFlash(); // 大龍になったら経験値ゲージの点滅を停止する
-        }
     }
 
     System.Collections.IEnumerator GrowToBigDragonSequence()
     {
+
+        audioSource.Play();
+
         // 小龍を非表示にする
         smallDragon.SetActive(false);
 
@@ -73,8 +76,8 @@ public class DragonGrowth : MonoBehaviour
         playerMove.canDash = false;
         playerMove.maxEXP += 500; // レベルアップ時に最大経験値を増加させる
         playerMove.currentEXP = 0; // 経験値をリセットする
-        playerMove.maxHP += 5;  // 大幅にHPを増加
-        playerMove.maxMP += 5;  // 大幅にMPを増加
+        playerMove.maxHP += 50;  // 大幅にHPを増加
+        playerMove.maxMP += 50;  // 大幅にMPを増加
         playerMove.attackPower += 20;  // 攻撃力を大幅に増加
         playerMove.currentHP = playerMove.maxHP;
         playerMove.currentMP = playerMove.maxMP;
@@ -88,6 +91,12 @@ public class DragonGrowth : MonoBehaviour
         createStage.isBigDragon = true;
         playerMove.isBigDragon = true;
         isBigDragon = true;
+
+        if (expFlashCoroutine != null)
+        {
+            StopCoroutine(expFlashCoroutine); // 経験値ゲージの点滅を停止する
+            expFlashCoroutine = null;
+        }
     }
 
     System.Collections.IEnumerator GrowCamera()
@@ -131,15 +140,5 @@ public class DragonGrowth : MonoBehaviour
         }
 
         background.transform.localScale = targetScale; // 最終的なスケールを設定する
-    }
-
-    void StopExpFlash()
-    {
-        if (expFlashCoroutine != null)
-        {
-            StopCoroutine(expFlashCoroutine);  // 経験値ゲージの点滅を停止
-            expFlashCoroutine = null;
-        }
-        playerMove.Expslider.SetActive(true); // 経験値ゲージを有効にする
     }
 }

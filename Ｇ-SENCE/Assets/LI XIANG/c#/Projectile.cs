@@ -1,49 +1,37 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    // 弾丸の速度（Inspectorで編集可能）
-    public float speed = 1f;
-    // プレイヤーに当たった場合のダメージ
-    public int damage = 1;
-    // 追尾対象
-    private Transform target;
+    private GameObject target;
+    private float speed;
+
+    public void SetTarget(GameObject target, float speed)
+    {
+        this.target = target;
+        this.speed = speed;
+    }
 
     void Update()
     {
-        // ターゲットが設定されている場合、ターゲットの方向に移動
         if (target != null)
         {
-            Vector3 direction = (target.position - transform.position).normalized;
-            transform.Translate(direction * speed * Time.deltaTime, Space.World);
+            Vector3 direction = (target.transform.position - transform.position).normalized;
+            transform.position += direction * speed * Time.deltaTime;
+        }
+        else
+        {
+            Destroy(gameObject); // ターゲットが存在しない場合は弾丸を破棄する
         }
     }
 
-    // ターゲットを設定するメソッド
-    public void SetTarget(Transform targetTransform)
+    private void OnTriggerEnter(Collider other)
     {
-        target = targetTransform;
-    }
-
-    void OnCollisionEnter(Collision collision)
-    {
-        // プレイヤーに当たった場合
-        if (collision.gameObject.CompareTag("Player"))
+        if (other.CompareTag("Player"))
         {
-            // プレイヤーにダメージを与える
-            PlayerMove player = collision.gameObject.GetComponent<PlayerMove>();
-            if (player != null)
-            {
-                player.TakeDamage(damage); // プレイヤーのTakeDamageメソッドを呼び出し
-            }
-            // 弾丸を破壊
-            Destroy(gameObject);
-        }
-        // プレイヤー以外に当たった場合
-        else if (!collision.gameObject.CompareTag("Enemy")) // 敵以外に衝突した場合のみ破壊
-        {
-            // 弾丸を破壊
-            Destroy(gameObject);
+            other.GetComponent<PlayerMove>().TakeDamage(10);  // プレイヤーにダメージを与える
+            Destroy(gameObject);  // 弾丸を破棄する
         }
     }
 }
